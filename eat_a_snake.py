@@ -51,7 +51,7 @@ while True:
     oldHPOS = hunterPOS
     
     if random.randint(0,10) == 10:
-        hchange = (random.choice(choice),random.choice(choice))
+        hchange = (hchange[0],random.choice(choice))
     hunterPOS = (hunterPOS[0]+hchange[0],hunterPOS[1]+hchange[1])
     if hunterPOS[0] > hunterMax[0]:
         hunterPOS = (hunterMax[0], hunterPOS[1])
@@ -75,6 +75,11 @@ while True:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 pygame.event.post(pygame.event.Event(QUIT))
+            if event.key == K_LEFT:
+                hchange = (15,hchange[1])
+            if event.key == K_RIGHT:
+                hchange = (-15,hchange[1])
+
 
     dist = snakePOS[0] - hunterPOS[0] / (snakePOS[1] - hunterPOS[1])
     if dist > -1000 and soundObj.get_num_channels() == 0:
@@ -82,6 +87,7 @@ while True:
     elif dist < -1000 and hunterSound.get_num_channels() == 0:
         hunterSound.play()
     print(dist)
+
     pygame.display.update()
     fpsClock.tick(30)
 #y1-x1/y2-x2
