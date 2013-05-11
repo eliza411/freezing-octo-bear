@@ -1,4 +1,4 @@
-import pygame, sys, random
+import pygame, sys, random, math
 from pygame.locals import *
 
 pygame.init()
@@ -95,11 +95,14 @@ while True:
             if event.key == K_UP:
                 hchange = (hchange[0], 0)
 
-
-    dist = snakePOS[0] - hunterPOS[0] / (snakePOS[1] - hunterPOS[1])
-    if dist > -1000 and soundObj.get_num_channels() == 0:
+    ydiff = abs(snakePOS[1] - hunterPOS[1])
+    xdiff = abs(snakePOS[0] - hunterPOS[0])
+    if ydiff == 0:
+        ydiff = 1
+    dist = math.sqrt(xdiff**2 + ydiff**2)
+    if abs(dist) > 200 and not pygame.mixer.get_busy():
         soundObj.play()
-    elif dist < -1000 and hunterSound.get_num_channels() == 0:
+    elif abs(dist) < 200 and not pygame.mixer.get_busy():
         hunterSound.play()
     print(dist)
 
