@@ -11,11 +11,21 @@ snakeRight = pygame.image.load('snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))
 snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 
+hunterLeft = pygame.image.load('ash_left.png').convert()
+hunterLeft.set_colorkey(snakeLeft.get_at((0,0)))
+hunterRight = pygame.image.load('ash_right.png').convert()
+hunterRight.set_colorkey(snakeLeft.get_at((0,0)))
+
 snakePOS = (0,0)
 
 choice = range(-5,5) 
 change = (random.choice(choice),random.choice(choice))
+hchange = (random.choice(choice),random.choice(choice))
 windowSurfaceObj.blit(catSurfaceObj, (0,0))
+
+hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])
+hunterPOS = hunterMax
+
 while True:
     windowSurfaceObj.blit(catSurfaceObj, (0,0))
     oldPOS = snakePOS
@@ -33,6 +43,26 @@ while True:
         snake = snakeRight
     windowSurfaceObj.blit(snake, snakePOS)
     
+
+    oldHPOS = hunterPOS
+    
+    if random.randint(0,10) == 10:
+        hchange = (random.choice(choice),random.choice(choice))
+    hunterPOS = (hunterPOS[0]+hchange[0],hunterPOS[1]+hchange[1])
+    if hunterPOS[0] > hunterMax[0]:
+        hunterPOS = (hunterMax[0], hunterPOS[1])
+    if hunterPOS[1] > hunterMax[1]:
+        hunterPOS = (hunterPOS[0],hunterMax[1])
+    if hunterPOS[0] < 0:
+        hunterPOS = (0, hunterPOS[1])
+    if hunterPOS[1] < 0:
+        hunterPOS = (hunterPOS[0],0)
+
+    if oldHPOS[1] > hunterPOS[1]:
+        hunter = hunterLeft
+    else:
+        hunter = hunterRight
+    windowSurfaceObj.blit(hunter, hunterPOS)
 
     for event in pygame.event.get():
         if event.type == QUIT:
