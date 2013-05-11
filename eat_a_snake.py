@@ -65,9 +65,9 @@ while True:
     if hunterPOS[1] < 0:
         hunterPOS = (hunterPOS[0],0)
 
-    if oldHPOS[1] > hunterPOS[1]:
+    if oldHPOS[0] > hunterPOS[0]:
         hunter = hunterLeft
-    elif oldHPOS[1] < hunterPOS[1]:
+    elif oldHPOS[0] < hunterPOS[0] :
         hunter = hunterRight
     windowSurfaceObj.blit(hunter, hunterPOS)
     
