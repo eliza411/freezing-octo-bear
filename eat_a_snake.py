@@ -51,7 +51,7 @@ while True:
     oldHPOS = hunterPOS
     
     if random.randint(0,10) == 10:
-        hchange = (hchange[0],random.choice(choice))
+        hchange = (hchange[0],hchange[1])
     hunterPOS = (hunterPOS[0]+hchange[0],hunterPOS[1]+hchange[1])
     if hunterPOS[0] > hunterMax[0]:
         hunterPOS = (hunterMax[0], hunterPOS[1])
@@ -67,6 +67,7 @@ while True:
     else:
         hunter = hunterRight
     windowSurfaceObj.blit(hunter, hunterPOS)
+    
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -75,10 +76,24 @@ while True:
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 pygame.event.post(pygame.event.Event(QUIT))
-            if event.key == K_LEFT:
-                hchange = (15,hchange[1])
             if event.key == K_RIGHT:
+                hchange = (15,hchange[1])
+            if event.key == K_LEFT:
                 hchange = (-15,hchange[1])
+            if event.key == K_DOWN:
+                hchange = (hchange[0], 15)
+            if event.key == K_UP:
+                hchange = (hchange[0], -15)
+
+        if event.type == KEYUP:
+            if event.key == K_RIGHT:
+                hchange = (0,hchange[1])
+            if event.key == K_LEFT:
+                hchange = (0,hchange[1])
+            if event.key == K_DOWN:
+                hchange = (hchange[0], 0)
+            if event.key == K_UP:
+                hchange = (hchange[0], 0)
 
 
     dist = snakePOS[0] - hunterPOS[0] / (snakePOS[1] - hunterPOS[1])
