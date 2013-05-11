@@ -36,7 +36,7 @@ while True:
         snakePOS = (0,snakePOS[1])
     if snakePOS[1] < 0:
         snakePOS = (snakePOS[0],0)
-    #If position right than show snake right
+    #If position right then show snake right
     if oldPOS[1] > snakePOS[1]:
         snake = snakeLeft
     else:
