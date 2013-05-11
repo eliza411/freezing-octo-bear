@@ -9,17 +9,29 @@ catSurfaceObj = pygame.image.load('background.jpg')
 snakeLeft = pygame.image.load('snake_left.png').convert()
 snakeRight = pygame.image.load('snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))
+snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 
 snakePOS = (0,0)
+
 choice = range(-5,5) 
+change = (random.choice(choice),random.choice(choice))
 windowSurfaceObj.blit(catSurfaceObj, (0,0))
 while True:
-    snakePOS = (snakePOS[0]+random.choice(choice),snakePOS[1]+random.choice(choice))
+    windowSurfaceObj.blit(catSurfaceObj, (0,0))
+    oldPOS = snakePOS
+    if random.randint(0,10) == 10:
+        change = (random.choice(choice),random.choice(choice))
+    snakePOS = (snakePOS[0]+change[0],snakePOS[1]+change[1])
     if snakePOS[0] < 0:
         snakePOS = (0,snakePOS[1])
     if snakePOS[1] < 0:
         snakePOS = (snakePOS[0],0)
-    windowSurfaceObj.blit(snakeLeft, snakePOS)
+    #If position right than show snake right
+    if oldPOS[1] > snakePOS[1]:
+        snake = snakeLeft
+    else:
+        snake = snakeRight
+    windowSurfaceObj.blit(snake, snakePOS)
     
 
     for event in pygame.event.get():
