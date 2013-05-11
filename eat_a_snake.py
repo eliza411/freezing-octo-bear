@@ -54,6 +54,7 @@ while True:
     
     if random.randint(0,10) == 10:
         hchange = (random.choice(choice),random.choice(choice))
+    # Calculate the new position based on randomness plus the control direction
     hunterPOS = (hunterPOS[0]+hchange[0]+control_direction[0],hunterPOS[1]+hchange[1]+control_direction[1])
     if hunterPOS[0] > hunterMax[0]:
         hunterPOS = (hunterMax[0], hunterPOS[1])
