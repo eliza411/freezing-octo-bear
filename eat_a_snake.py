@@ -29,6 +29,8 @@ windowSurfaceObj.blit(catSurfaceObj, (0,0))
 hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])
 hunterPOS = hunterMax
 
+control_direction = [0,0]
+
 while True:
     windowSurfaceObj.blit(catSurfaceObj, (0,0))
     oldPOS = snakePOS
@@ -51,8 +53,8 @@ while True:
     oldHPOS = hunterPOS
     
     if random.randint(0,10) == 10:
-        hchange = (hchange[0],hchange[1])
-    hunterPOS = (hunterPOS[0]+hchange[0],hunterPOS[1]+hchange[1])
+        hchange = (random.choice(choice),random.choice(choice))
+    hunterPOS = (hunterPOS[0]+hchange[0]+control_direction[0],hunterPOS[1]+hchange[1]+control_direction[1])
     if hunterPOS[0] > hunterMax[0]:
         hunterPOS = (hunterMax[0], hunterPOS[1])
     if hunterPOS[1] > hunterMax[1]:
@@ -77,23 +79,23 @@ while True:
             if event.key == K_ESCAPE:
                 pygame.event.post(pygame.event.Event(QUIT))
             if event.key == K_RIGHT:
-                hchange = (15,hchange[1])
+                control_direction[0] = 3
             if event.key == K_LEFT:
-                hchange = (-15,hchange[1])
+                control_direction[0] = -3
             if event.key == K_DOWN:
-                hchange = (hchange[0], 15)
+                control_direction[1] = 3
             if event.key == K_UP:
-                hchange = (hchange[0], -15)
+                control_direction[1] = -3
 
         if event.type == KEYUP:
             if event.key == K_RIGHT:
-                hchange = (0,hchange[1])
+                control_direction[0] = 0
             if event.key == K_LEFT:
-                hchange = (0,hchange[1])
+                control_direction[0] = 0
             if event.key == K_DOWN:
-                hchange = (hchange[0], 0)
+                control_direction[1] = 0
             if event.key == K_UP:
-                hchange = (hchange[0], 0)
+                control_direction[1] = 0
 
     ydiff = abs(snakePOS[1] - hunterPOS[1])
     xdiff = abs(snakePOS[0] - hunterPOS[0])
