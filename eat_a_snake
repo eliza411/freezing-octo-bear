@@ -1,0 +1,13 @@
+import pygame, sys
+from pygame.locals import *
+
+pygame.init()
+fpsClock = pygame.time.Clock()
+
+windowSurfaceObj = pygame.display.set_mode((1008,630))
+catSurfaceObj = pygame.image.load('background.jpg')
+
+while True:
+    windowSurfaceObj.blit(catSurfaceObj, (0,0))
+    pygame.display.update()
+    fpsClock.tick(30)
