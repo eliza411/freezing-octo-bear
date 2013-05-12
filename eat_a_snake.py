@@ -14,50 +14,56 @@ hunterChannel = pygame.mixer.Channel(2)
 hunterChannel.play(hunterSound, -1)
 hunterChannel.pause()
 
-windowSurfaceObj = pygame.display.set_mode((1008,630))
-catSurfaceObj = pygame.image.load('background.jpg')
-snakeLeft = pygame.image.load('snake_left.png').convert()
+windowSurfaceObj = pygame.display.set_mode((1008,630))      #Set window size
+catSurfaceObj = pygame.image.load('background.jpg')         #Set background sprite
+snakeLeft = pygame.image.load('snake_left.png').convert()   #Set Snake sprites
 snakeRight = pygame.image.load('snake_right.png').convert()
-snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))
+snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
 snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 
-hunterLeft = pygame.image.load('ash_left.png').convert()
-hunterLeft.set_colorkey(snakeLeft.get_at((0,0)))
+hunterLeft = pygame.image.load('ash_left.png').convert()    #Set hunter sprites
 hunterRight = pygame.image.load('ash_right.png').convert()
+hunterLeft.set_colorkey(snakeLeft.get_at((0,0)))            #Set hunter background transparency
 hunterRight.set_colorkey(snakeLeft.get_at((0,0)))
 
-snakePOS = (0,0)
+snakePOS = (0,0)            #Initial snake position
 
-choice = range(-5,6) 
-change = (random.choice(choice),random.choice(choice))
+choice = range(-5,6)        #Made a list of -5 to 5
+change = (random.choice(choice),random.choice(choice))      
 hchange = (random.choice(choice),random.choice(choice))
-windowSurfaceObj.blit(catSurfaceObj, (0,0))
+windowSurfaceObj.blit(catSurfaceObj, (0,0))                 #Draw the background
 
-hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])
-hunterPOS = hunterMax
-hunter = hunterLeft
+hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])   #Variable used to prevent Hunter from leaving screen
+hunterPOS = hunterMax   #Hunter's start position
+hunter = hunterLeft     #Hunter starts the game looking left
 
-control_direction = [0,0]
-hunter = hunterRight
+snake = snakeLeft #Snake starts the game looking left
+
+control_direction = [0,0]   #variable used to move hunter
 while True:
-    windowSurfaceObj.blit(catSurfaceObj, (0,0))
-    oldPOS = snakePOS
+    windowSurfaceObj.blit(catSurfaceObj, (0,0))             #Constantly draw background
+    oldPOS = snakePOS       #Snake's position of the last frame
     if random.randint(0,10) == 10:
         change = (random.choice(choice),random.choice(choice))
+
+
+    #Snake stuffs    
     snakePOS = (snakePOS[0]+change[0],snakePOS[1]+change[1])
     
-    if snakePOS[0] < 0:
+    #Changing left/right sprite depending on where it moved
+    if snakePOS[0] < 0:             
         snakePOS = (0,snakePOS[1])
-    if snakePOS[1] < 0:
+    if snakePOS[1] < 0:         
         snakePOS = (snakePOS[0],0)
-    #If position right then show snake right
-    if oldPOS[1] > snakePOS[1]:
+        
+    if oldPOS[0] > snakePOS[0]:
         snake = snakeLeft
-    else:
+    elif oldPOS[0] < snakePOS[0]:
         snake = snakeRight
     windowSurfaceObj.blit(snake, snakePOS)
-    
 
+    
+    #Hunter's stuffs
     oldHPOS = hunterPOS
     
     if random.randint(0,10) == 10:
