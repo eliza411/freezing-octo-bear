@@ -4,8 +4,15 @@ from pygame.locals import *
 pygame.init()
 fpsClock = pygame.time.Clock()
 
-soundObj = pygame.mixer.Sound('slither.wav')
+snakeSound = pygame.mixer.Sound('slither.wav')
 hunterSound = pygame.mixer.Sound('hunt.wav')
+
+snakeChannel = pygame.mixer.Channel(1)
+snakeChannel.play(snakeSound, -1)
+snakeChannel.pause()
+hunterChannel = pygame.mixer.Channel(2)
+hunterChannel.play(hunterSound, -1)
+hunterChannel.pause()
 
 windowSurfaceObj = pygame.display.set_mode((1008,630))
 catSurfaceObj = pygame.image.load('background.jpg')
@@ -28,6 +35,7 @@ windowSurfaceObj.blit(catSurfaceObj, (0,0))
 
 hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])
 hunterPOS = hunterMax
+hunter = hunterLeft
 
 control_direction = [0,0]
 hunter = hunterRight
@@ -103,11 +111,16 @@ while True:
     if ydiff == 0:
         ydiff = 1
     dist = math.sqrt(xdiff**2 + ydiff**2)
-    if abs(dist) > 200 and not pygame.mixer.get_busy():
-        soundObj.play()
-    elif abs(dist) < 200 and not pygame.mixer.get_busy():
-        hunterSound.play()
-    print(dist)
+    distRatio = 1.0 - (dist/math.sqrt(1008**2 + 630**2))
+    if abs(dist) > 200:
+        hunterChannel.pause()
+        # Make the volume softer when the hunter is more distant.
+        snakeChannel.set_volume(distRatio)
+        snakeChannel.unpause()
+    elif abs(dist) < 200:
+        snakeChannel.pause()
+        hunterChannel.unpause()
+    print(distRatio)
 
     pygame.display.update()
     fpsClock.tick(30)

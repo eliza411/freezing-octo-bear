@@ -8,8 +8,9 @@ We're mostly working on Windows machines here, so to set up:
 Install Python 3
 ================
 
-1. Visit http://www.python.org/download/releases/3.4.2
-2. Download Windows x86 MSI Installer (Windows X86-64 if you have 64bit Windows)3. Install, accepting all the defaults
+1. Visit http://www.python.org/download
+2. Download Python 3.3.1 Windows x86 MSI Installer (32-bit is required by Pygames)
+3. Install, accepting all the defaults
 
 Install the Pygame Libraries
 ============================
@@ -27,7 +28,9 @@ In your Git shell, you may want to run Python from the commandline. To make it e
 2. Go to Start > Computer, right-click, then choose Properties. 
 3. Choose Advanced system settings and on the Advanced tab, choose Environment variables
 4. Find the Path variable and at the end, add a semicolon (;), then enter the path to Python and save.
-5. Test by running the program
+5. Exit your bash shell and re-enter.
+6. Test by running the program
+
 
 
 
