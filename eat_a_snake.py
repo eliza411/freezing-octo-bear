@@ -30,7 +30,7 @@ hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])
 hunterPOS = hunterMax
 
 control_direction = [0,0]
-
+hunter = hunterRight
 while True:
     windowSurfaceObj.blit(catSurfaceObj, (0,0))
     oldPOS = snakePOS
