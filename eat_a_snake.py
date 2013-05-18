@@ -86,6 +86,7 @@ while True:
 
 
     AliveSprites.draw(windowSurfaceObj) 
+    hunter.inventory.draw(windowSurfaceObj)
     hunter.update()
     snake.update()
 

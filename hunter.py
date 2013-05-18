@@ -34,6 +34,9 @@ class Hunter(pygame.sprite.Sprite):
 
     def update(self):
         self.move(self.movex, self.movey)
+        for item, x in zip(self.inventory, range(len(self.inventory))):
+            item.rect.x = x*70
+            item.rect.y = 635
 
     def move(self, dx ,dy):
         self.rect.x += dx*4
