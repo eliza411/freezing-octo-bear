@@ -16,4 +16,6 @@ class InventoryItem(pygame.sprite.Sprite):
         return self.movemod
     def use(self):
         self.active = eat_a_snake.FPS * 10 #seconds
+        pygame.mixer.Sound("assets/audio/zOOOOOOoooOOOOOm.ogg").play()
+        
         
