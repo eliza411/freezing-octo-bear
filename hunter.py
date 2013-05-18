@@ -16,6 +16,7 @@ class Hunter(pygame.sprite.Sprite):
         self.hunterLeft.set_colorkey(self.hunterLeft.get_at((0,0)))            #Set hunter background transparency
         self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
         self.inventory =  pygame.sprite.Group()
+        self.effects =  pygame.sprite.Group()
 
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
@@ -40,7 +41,7 @@ class Hunter(pygame.sprite.Sprite):
 
     def move(self, dx ,dy):
         mspd = 1
-        for item in self.inventory:
+        for item in self.effects:
             if item.active:
                 mspd += item.getMovementMod()
                 item.active -= 1
@@ -68,6 +69,9 @@ class Hunter(pygame.sprite.Sprite):
     def consume(self, invNum):
         invList = self.inventory.sprites()
         if len(invList) > invNum:
-            invList[invNum].use()    
+            invList[invNum].use()
+            self.effects.add(invList[invNum])
+            self.inventory.remove(invList[invNum])
+            
             
 
