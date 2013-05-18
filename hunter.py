@@ -15,8 +15,7 @@ class Hunter(pygame.sprite.Sprite):
         self.hunterRight = pygame.image.load(imageRight).convert()
         self.hunterLeft.set_colorkey(self.hunterLeft.get_at((0,0)))            #Set hunter background transparency
         self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
-
-
+        self.inventory =  pygame.sprite.Group()
 
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
