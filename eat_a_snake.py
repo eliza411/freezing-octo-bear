@@ -14,12 +14,15 @@ hunterChannel = pygame.mixer.Channel(2)
 hunterChannel.play(hunterSound, -1)
 hunterChannel.pause()
 
-windowSurfaceObj = pygame.display.set_mode((1008,630))      #Set window size
+windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
 catSurfaceObj = pygame.image.load('background.jpg')         #Set background sprite
 snakeLeft = pygame.image.load('snake_left.png').convert()   #Set Snake sprites
 snakeRight = pygame.image.load('snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
 snakeRight.set_colorkey(snakeRight.get_at((0,0)))
+
+Inventory = pygame.image.load('Inventory.png')
+
 
 hunterLeft = pygame.image.load('ash_left.png').convert()    #Set hunter sprites
 hunterRight = pygame.image.load('ash_right.png').convert()
@@ -46,6 +49,8 @@ while True:
     if random.randint(0,10) == 10:
         change = (random.choice(choice),random.choice(choice))
 
+    windowSurfaceObj.blit(Inventory, (0,630))
+
 
     #Snake stuffs    
     snakePOS = (snakePOS[0]+change[0],snakePOS[1]+change[1])
@@ -55,6 +60,10 @@ while True:
         snakePOS = (0,snakePOS[1])
     if snakePOS[1] < 0:         
         snakePOS = (snakePOS[0],0)
+    if snakePOS[0] > hunterMax[0]:
+        snakePOS = (hunterMax[0], snakePOS[1])
+    if snakePOS[1] > hunterMax[1]:
+        snakePOS = (snakePOS[0],hunterMax[1])
         
     if oldPOS[0] > snakePOS[0]:
         snake = snakeLeft
