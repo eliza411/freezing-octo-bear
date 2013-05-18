@@ -36,6 +36,11 @@ Inventory = pygame.image.load('Inventory.png')
 #Load inventory sprites
 invItems = []
 invItems.append(items.InventoryItem('leaf.png'))
+invItems.append(items.InventoryItem('leaf.png'))
+invItems.append(items.InventoryItem('leaf.png'))
+invItems.append(items.InventoryItem('leaf.png'))
+invItems.append(items.InventoryItem('leaf.png'))
+invItems.append(items.InventoryItem('leaf.png'))
 
 invItems[0].setMovementMod(6)
 
@@ -77,6 +82,7 @@ while True:
 
 
     AliveSprites.draw(windowSurfaceObj) 
+    hunter.inventory.draw(windowSurfaceObj)
     hunter.update()
     snake.update()
 
