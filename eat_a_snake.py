@@ -50,6 +50,7 @@ invItemsPossessed = []
 spriteGroup = pygame.sprite.Group()
 for item in invItems:
     spriteGroup.add(item)
+    AliveSprites.add(item)
 
 while True:
     windowSurfaceObj.blit(catSurfaceObj, (0,0))             #Constantly draw background
@@ -59,9 +60,6 @@ while True:
     windowSurfaceObj.blit(Inventory, (0,630))
     for item in invItemsPossessed:
         windowSurfaceObj.blit(item.image, (3,633))
-
-    for item in invItems:
-        windowSurfaceObj.blit(item.image, item.POS)
         
     AliveSprites.draw(windowSurfaceObj) 
     hunter.update()

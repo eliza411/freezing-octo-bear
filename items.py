@@ -6,8 +6,9 @@ class InventoryItem(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(image)
         self.image.set_colorkey(self.image.get_at((0,0)))
-        self.POS = (random.randint(0,1008), random.randint(0,630))
         self.rect = self.image.get_rect()
+        self.rect.x = random.randint(50, 950)
+        self.rect.y = random.randint(50, 580)
     def setMovementMod(self, mod):
         self.movemod = mod
     def getMovementMod(self):
