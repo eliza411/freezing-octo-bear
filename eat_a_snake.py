@@ -33,8 +33,6 @@ invItems[0].setMovementMod(6)
 hunter =  hunter.Hunter('ash_left.png', 'ash_right.png') #Hunter starts the game looking left
 AliveSprites = pygame.sprite.Group(hunter)
 
-snakePOS = (0,0)            #Initial snake position
-
 choice = range(-5,6)        #Made a list of -5 to 5
 change = (random.choice(choice),random.choice(choice))      
 hchange = (random.choice(choice),random.choice(choice))
@@ -55,7 +53,6 @@ for item in invItems:
 
 while True:
     windowSurfaceObj.blit(catSurfaceObj, (0,0))             #Constantly draw background
-    oldPOS = snakePOS       #Snake's position of the last frame
     if random.randint(0,10) == 10:
         change = (random.choice(choice),random.choice(choice))
 
@@ -65,21 +62,6 @@ while True:
 
     for item in invItems:
         windowSurfaceObj.blit(item.image, item.POS)
-
-    #Snake stuffs    
-    snakePOS = (snakePOS[0]+change[0],snakePOS[1]+change[1])
-    
-    #Changing left/right sprite depending on where it moved
-    if snakePOS[0] < 0:             
-        snakePOS = (0,snakePOS[1])
-    if snakePOS[1] < 0:         
-        snakePOS = (snakePOS[0],0)
-        
-    if oldPOS[0] > snakePOS[0]:
-        snake.image = snakeLeft
-    elif oldPOS[0] < snakePOS[0]:
-        snake.image = snakeRight
-
         
     AliveSprites.draw(windowSurfaceObj) 
     hunter.update()
