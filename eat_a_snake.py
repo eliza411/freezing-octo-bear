@@ -28,6 +28,13 @@ class Hunter(pygame.sprite.Sprite):
        # Update the position of this object by setting the values of rect.x and rect.y
        self.rect = self.image.get_rect()
 
+class Snake(pygame.sprite.Sprite):
+    def __init__(self, image):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = image
+        self.rect = self.image.get_rect()
+
+
 pygame.init()
 fpsClock = pygame.time.Clock()
 
@@ -74,7 +81,7 @@ hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])   #Var
 hunterPOS = hunterMax   #Hunter's start position
 
 
-snake = snakeLeft #Snake starts the game looking left
+snake = Snake(snakeLeft) #Snake starts the game looking left
 
 control_direction = [0,0]   #variable used to move hunter
 invItemsPossessed = []
@@ -111,10 +118,10 @@ while True:
         snakePOS = (snakePOS[0],hunterMax[1])
         
     if oldPOS[0] > snakePOS[0]:
-        snake = snakeLeft
+        snake.image = snakeLeft
     elif oldPOS[0] < snakePOS[0]:
-        snake = snakeRight
-    windowSurfaceObj.blit(snake, snakePOS)
+        snake.image = snakeRight
+    windowSurfaceObj.blit(snake.image, snakePOS)
 
     
     #Hunter's stuffs
@@ -144,10 +151,6 @@ while True:
     
         
 
-    for item in pygame.sprite.spritecollide(hunter,spriteGroup,False):
-        print item
-        if item == invItems[0]:
-            sys.exit()
 
     for event in pygame.event.get():
         if event.type == QUIT:
