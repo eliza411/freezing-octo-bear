@@ -71,6 +71,11 @@ while True:
     for item in invItemsPossessed:
         windowSurfaceObj.blit(item.image, (3,633))
         
+    collide =  pygame.sprite.spritecollide(hunter, spriteGroup, True)
+    if collide:
+        hunter.inventory.add(collide)
+
+
     AliveSprites.draw(windowSurfaceObj) 
     hunter.update()
     snake.update()
