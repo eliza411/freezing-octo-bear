@@ -15,8 +15,18 @@ hunterChannel = pygame.mixer.Channel(2)
 hunterChannel.play(hunterSound, -1)
 hunterChannel.pause()
 
+
 windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
 catSurfaceObj = pygame.image.load('background.jpg')         #Set background sprite
+
+
+img =  pygame.image.load('seamless-tile.png')
+xcatSurfaceObj = pygame.Surface((8000,6000))
+for y in range(0,6000,400):
+    for x in range(0,8000,640):
+        xcatSurfaceObj.blit(img,(x,y))
+
+
 snakeLeft = pygame.image.load('snake_left.png').convert()   #Set Snake sprites
 snakeRight = pygame.image.load('snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
