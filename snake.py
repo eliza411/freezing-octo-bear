@@ -12,18 +12,18 @@ class Snake(pygame.sprite.Sprite):
         self.move(random.choice(self.choice), random.choice(self.choice))
     
     def move(self, dx, dy):
+        mspd = 2
         
-        
-        self.rect.x += dx*4
-        self.rect.y += dy*4
+        self.rect.x += dx*mspd
+        self.rect.y += dy*mspd
         if self.rect.bottomright[0] > 1007:
-            self.rect.x -= dx*4
+            self.rect.x -= dx*mspd
 
         if self.rect.bottomright[1] > 630:
-            self.rect.y -= dy*4
+            self.rect.y -= dy*mspd
 
         if self.rect.topleft[0] < 0:
-            self.rect.x -= dx*4
+            self.rect.x -= dx*mspd
 
         if self.rect.topleft[1] < 0:
-            self.rect.y -= dy*4
+            self.rect.y -= dy*mspd
