@@ -5,6 +5,7 @@ class InventoryItem(pygame.sprite.Sprite):
     def __init__(self, image):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(image)
+        self.image.set_colorkey(self.image.get_at((0,0)))
         self.POS = (random.randint(0,1008), random.randint(0,630))
         self.rect = self.image.get_rect()
     def setMovementMod(self, mod):
@@ -46,8 +47,19 @@ class Hunter(pygame.sprite.Sprite):
         self.move(self.movex, self.movey)
 
     def move(self, dx ,dy):
-        self.rect.x += dx
-        self.rect.y += dy
+        self.rect.x += dx*4
+        self.rect.y += dy*4
+        if self.rect.bottomright[0] > 1007:
+            self.rect.x -= dx*4
+ 
+        if self.rect.bottomright[1] > 630:
+            self.rect.y -= dy*4
+
+        if self.rect.topleft[0] < 0:
+            self.rect.x -= dx*4
+
+        if self.rect.topleft[1] < 0:
+            self.rect.y -= dy*4
 
         #Hunter's stuffs
 
@@ -178,6 +190,7 @@ while True:
             if event.key == K_UP:
                 hunter.movey = 0
 
-    pygame.display.update()
+    pygame.display.flip()
+    
     fpsClock.tick(30)
 #y1-x1/y2-x2
