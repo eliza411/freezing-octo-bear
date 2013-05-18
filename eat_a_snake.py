@@ -32,24 +32,20 @@ snakeRight = pygame.image.load('assets/images/snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
 snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 
-Inventory = pygame.image.load('assets/images/Inventory.png')
-#Load inventory sprites
-invItems = []
-
-leaf = items.InventoryItem('assets/images/leaf.png')
-invItems.append(leaf)
-
-
-leaf.setMovementMod(6)
-
 
 hunter =  hunter.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
 AliveSprites = pygame.sprite.Group(hunter)
 
-
-if hunter.rect.colliderect(invItems[0].rect):
-    invItems[0].rect.x = random.randint(50, 950)
-    invItems[0].rect.y = random.randint(50, 580)
+Inventory = pygame.image.load('assets/images/Inventory.png')
+#Load inventory sprites
+invItems = []
+for x in range(10):
+    leaf = items.InventoryItem('assets/images/leaf.png')
+    invItems.append(leaf)
+    leaf.setMovementMod(6)
+    if hunter.rect.colliderect(leaf.rect):
+        leaf.rect.x = random.randint(50, 950)
+        leaf.rect.y = random.randint(50, 580)
 
 choice = range(-5,6)        #Made a list of -5 to 5
 change = (random.choice(choice),random.choice(choice))      

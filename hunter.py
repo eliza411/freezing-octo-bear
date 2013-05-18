@@ -39,19 +39,22 @@ class Hunter(pygame.sprite.Sprite):
             item.rect.y = 635
 
     def move(self, dx ,dy):
-        self.rect.x += dx*4
-        self.rect.y += dy*4
+        mspd = 1
+        for item in self.inventory:
+            mspd += item.getMovementMod()
+        self.rect.x += dx*mspd
+        self.rect.y += dy*mspd
         if self.rect.bottomright[0] > 1007:
-            self.rect.x -= dx*4
+            self.rect.x -= dx*mspd
 
         if self.rect.bottomright[1] > 630:
-            self.rect.y -= dy*4
+            self.rect.y -= dy*mspd
 
         if self.rect.topleft[0] < 0:
-            self.rect.x -= dx*4
+            self.rect.x -= dx*mspd
 
         if self.rect.topleft[1] < 0:
-            self.rect.y -= dy*4
+            self.rect.y -= dy*mspd
 
         if random.randint(0,10) == 10:
             hchange = (random.choice(self.choice),random.choice(self.choice))
