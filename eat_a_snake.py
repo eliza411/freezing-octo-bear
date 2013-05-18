@@ -1,18 +1,6 @@
 import pygame, sys, random, math 
 from pygame.locals import *
-import hunter, snake
-
-class InventoryItem(pygame.sprite.Sprite):
-    def __init__(self, image):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image)
-        self.image.set_colorkey(self.image.get_at((0,0)))
-        self.POS = (random.randint(0,1008), random.randint(0,630))
-        self.rect = self.image.get_rect()
-    def setMovementMod(self, mod):
-        self.movemod = mod
-    def getMovementMod(self):
-        return self.movemod
+import hunter, snake, items
 
 pygame.init()
 fpsClock = pygame.time.Clock()
@@ -37,7 +25,7 @@ snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 Inventory = pygame.image.load('Inventory.png')
 #Load inventory sprites
 invItems = []
-invItems.append(InventoryItem('leaf.png'))
+invItems.append(items.InventoryItem('leaf.png'))
 
 invItems[0].setMovementMod(6)
 

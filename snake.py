@@ -1,6 +1,5 @@
 import pygame, sys, random, math 
 from pygame.locals import *
-import hunter, snake
 
 class Snake(pygame.sprite.Sprite):
     def __init__(self, image):
