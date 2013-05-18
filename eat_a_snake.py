@@ -117,6 +117,9 @@ if __name__ == '__main__':
                     hunter.consume(8)
                 if event.key == K_0:
                     hunter.consume(9)
+
+                if event.key == K_PERIOD:
+                    pygame.mixer.Sound("assets/audio/flawless_victory.wav").play()
                 
                 
                 if event.key == K_ESCAPE:
