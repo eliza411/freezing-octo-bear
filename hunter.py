@@ -50,7 +50,6 @@ class Hunter(pygame.sprite.Sprite):
 
         if self.rect.topleft[1] < 0:
             self.rect.y -= dy*4
-        #Hunter's stuffs
 
         if random.randint(0,10) == 10:
             hchange = (random.choice(self.choice),random.choice(self.choice))
