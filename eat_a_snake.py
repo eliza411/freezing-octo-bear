@@ -80,9 +80,10 @@ while True:
     elif oldPOS[0] < snakePOS[0]:
         snake.image = snakeRight
 
-    print AliveSprites    
+        
     AliveSprites.draw(windowSurfaceObj) 
-    hunter.update()        
+    hunter.update()
+    snake.update()
 
 
     for event in pygame.event.get():
