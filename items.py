@@ -1,8 +1,9 @@
-import pygame, sys, random, math
+import pygame, sys, random, math, eat_a_snake
 from pygame.locals import *
 
 class InventoryItem(pygame.sprite.Sprite):
     def __init__(self, image):
+        self.active = 0
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(image)
         self.image.set_colorkey(self.image.get_at((0,0)))
@@ -13,4 +14,6 @@ class InventoryItem(pygame.sprite.Sprite):
         self.movemod = mod
     def getMovementMod(self):
         return self.movemod
-
+    def use(self):
+        self.active = eat_a_snake.FPS * 10 #seconds
+        

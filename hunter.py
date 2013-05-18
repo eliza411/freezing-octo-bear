@@ -41,7 +41,9 @@ class Hunter(pygame.sprite.Sprite):
     def move(self, dx ,dy):
         mspd = 1
         for item in self.inventory:
-            mspd += item.getMovementMod()
+            if item.active:
+                mspd += item.getMovementMod()
+                item.active -= 1
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd
         if self.rect.bottomright[0] > 1007:
@@ -63,4 +65,7 @@ class Hunter(pygame.sprite.Sprite):
             self.image = self.hunterLeft
         elif dx > 0:
             self.image = self.hunterRight
+    def consume(self, invNum):
+        self.inventory.sprites()[invNum].use()
+            
 
