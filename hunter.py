@@ -66,6 +66,8 @@ class Hunter(pygame.sprite.Sprite):
         elif dx > 0:
             self.image = self.hunterRight
     def consume(self, invNum):
-        self.inventory.sprites()[invNum].use()
+        invList = self.inventory.sprites()
+        if len(invList) > invNum:
+            invList[invNum].use()    
             
 

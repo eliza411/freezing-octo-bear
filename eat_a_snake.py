@@ -99,6 +99,26 @@ if __name__ == '__main__':
             if event.type == KEYDOWN:
                 if event.key == K_1:
                     hunter.consume(0)
+                if event.key == K_2:
+                    hunter.consume(1)
+                if event.key == K_3:
+                    hunter.consume(2)
+                if event.key == K_4:
+                    hunter.consume(3)
+                if event.key == K_5:
+                    hunter.consume(4)
+                if event.key == K_6:
+                    hunter.consume(5)
+                if event.key == K_7:
+                    hunter.consume(6)
+                if event.key == K_8:
+                    hunter.consume(7)
+                if event.key == K_9:
+                    hunter.consume(8)
+                if event.key == K_0:
+                    hunter.consume(9)
+                
+                
                 if event.key == K_ESCAPE:
                     pygame.event.post(pygame.event.Event(QUIT))
                 if event.key == K_RIGHT:
