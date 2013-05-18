@@ -35,13 +35,21 @@ snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 Inventory = pygame.image.load('Inventory.png')
 #Load inventory sprites
 invItems = []
-invItems.append(items.InventoryItem('leaf.png'))
 
-invItems[0].setMovementMod(6)
+leaf = items.InventoryItem('leaf.png')
+invItems.append(leaf)
+
+
+leaf.setMovementMod(6)
 
 
 hunter =  hunter.Hunter('ash_left.png', 'ash_right.png') #Hunter starts the game looking left
 AliveSprites = pygame.sprite.Group(hunter)
+
+
+if hunter.rect.colliderect(invItems[0].rect):
+    invItems[0].rect.x = random.randint(50, 950)
+    invItems[0].rect.y = random.randint(50, 580)
 
 choice = range(-5,6)        #Made a list of -5 to 5
 change = (random.choice(choice),random.choice(choice))      
@@ -61,6 +69,7 @@ spriteGroup = pygame.sprite.Group()
 for item in invItems:
     spriteGroup.add(item)
     AliveSprites.add(item)
+    
 
 while True:
     windowSurfaceObj.blit(catSurfaceObj, (0,0))             #Constantly draw background
