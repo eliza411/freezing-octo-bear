@@ -5,8 +5,8 @@ import hunter, snake, items
 pygame.init()
 fpsClock = pygame.time.Clock()
 
-snakeSound = pygame.mixer.Sound('slither.wav')
-hunterSound = pygame.mixer.Sound('hunt.wav')
+snakeSound = pygame.mixer.Sound('assets/audio/slither.wav')
+hunterSound = pygame.mixer.Sound('assets/audio/hunt.wav')
 
 snakeChannel = pygame.mixer.Channel(1)
 snakeChannel.play(snakeSound, -1)
@@ -17,10 +17,10 @@ hunterChannel.pause()
 
 
 windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
-catSurfaceObj = pygame.image.load('background.jpg')         #Set background sprite
+catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
 
 
-img =  pygame.image.load('seamless-tile.png')
+img =  pygame.image.load('assets/images/seamless-tile.png')
 xcatSurfaceObj = pygame.Surface((8000,6000))
 for y in range(0,6000,400):
     for x in range(0,8000,640):
@@ -32,7 +32,7 @@ snakeRight = pygame.image.load('snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
 snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 
-Inventory = pygame.image.load('Inventory.png')
+Inventory = pygame.image.load('assets/images/Inventory.png')
 #Load inventory sprites
 invItems = []
 invItems.append(items.InventoryItem('leaf.png'))
@@ -45,7 +45,7 @@ invItems.append(items.InventoryItem('leaf.png'))
 invItems[0].setMovementMod(6)
 
 
-hunter =  hunter.Hunter('ash_left.png', 'ash_right.png') #Hunter starts the game looking left
+hunter =  hunter.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
 AliveSprites = pygame.sprite.Group(hunter)
 
 choice = range(-5,6)        #Made a list of -5 to 5
