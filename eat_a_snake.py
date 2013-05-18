@@ -27,8 +27,8 @@ for y in range(0,6000,400):
         xcatSurfaceObj.blit(img,(x,y))
 
 
-snakeLeft = pygame.image.load('snake_left.png').convert()   #Set Snake sprites
-snakeRight = pygame.image.load('snake_right.png').convert()
+snakeLeft = pygame.image.load('assets/images/snake_left.png').convert()   #Set Snake sprites
+snakeRight = pygame.image.load('assets/images/snake_right.png').convert()
 snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
 snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 
@@ -36,7 +36,7 @@ Inventory = pygame.image.load('assets/images/Inventory.png')
 #Load inventory sprites
 invItems = []
 
-leaf = items.InventoryItem('leaf.png')
+leaf = items.InventoryItem('assets/images/leaf.png')
 invItems.append(leaf)
 
 
