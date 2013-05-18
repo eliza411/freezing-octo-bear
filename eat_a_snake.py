@@ -16,17 +16,51 @@ class Hunter(pygame.sprite.Sprite):
 
     # Constructor. Pass in the color of the block,
     # and its x and y position
-    def __init__(self, image):
-       # Call the parent class (Sprite) constructor
-       pygame.sprite.Sprite.__init__(self)
+    def __init__(self, imageLeft, imageRight):
+        # Call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
 
-       # Create an image of the block, and fill it with a color.
-       # This could also be an image loaded from the disk.
-       self.image = image
+        self.hunterLeft = pygame.image.load(imageLeft).convert()    #Set hunter sprites
+        self.hunterRight = pygame.image.load(imageRight).convert()
+        self.hunterLeft.set_colorkey(self.hunterLeft.get_at((0,0)))            #Set hunter background transparency
+        self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
 
-       # Fetch the rectangle object that has the dimensions of the image
-       # Update the position of this object by setting the values of rect.x and rect.y
-       self.rect = self.image.get_rect()
+
+
+        # Create an image of the block, and fill it with a color.
+        # This could also be an image loaded from the disk.
+        self.image = self.hunterRight
+
+        # Fetch the rectangle object that has the dimensions of the image
+        # Update the position of this object by setting the values of rect.x and rect.y
+        self.rect = self.image.get_rect()
+        self.hunterMax = (1000-self.rect.x, 630-self.rect.y)   #Variable used to prevent Hunter from leaving screen
+        self.rect.x += self.hunterMax[0]/2   #Hunter's start position
+        self.rect.y += self.hunterMax[1]/2   #Hunter's start position
+
+        self.movex = 0
+        self.movey = 0
+        self.choice = range(-5,6)        #Made a list of -5 to 5
+
+    def update(self):
+        self.move(self.movex, self.movey)
+
+    def move(self, dx ,dy):
+        self.rect.x += dx
+        self.rect.y += dy
+
+        #Hunter's stuffs
+
+        if random.randint(0,10) == 10:
+            hchange = (random.choice(self.choice),random.choice(self.choice))
+        # Calculate the new position based on randomness plus the control direction
+        if dx < 0:
+            self.image = self.hunterLeft
+        elif dx > 0:
+            self.image = self.hunterRight
+
+
+
 
 class Snake(pygame.sprite.Sprite):
     def __init__(self, image):
@@ -63,12 +97,8 @@ invItems.append(InventoryItem('RaccoonLeaf.gif'))
 invItems[0].setMovementMod(6)
 
 
-hunterLeft = pygame.image.load('ash_left.png').convert()    #Set hunter sprites
-hunterRight = pygame.image.load('ash_right.png').convert()
-hunterLeft.set_colorkey(snakeLeft.get_at((0,0)))            #Set hunter background transparency
-hunterRight.set_colorkey(snakeLeft.get_at((0,0)))
-
-hunter = Hunter(hunterLeft) #Hunter starts the game looking left
+hunter =  Hunter('ash_left.png', 'ash_right.png') #Hunter starts the game looking left
+AliveSprites = pygame.sprite.Group(hunter)
 
 snakePOS = (0,0)            #Initial snake position
 
@@ -77,11 +107,10 @@ change = (random.choice(choice),random.choice(choice))
 hchange = (random.choice(choice),random.choice(choice))
 windowSurfaceObj.blit(catSurfaceObj, (0,0))                 #Draw the background
 
-hunterMax = (1000-hunterLeft.get_size()[0], 630-hunterLeft.get_size()[1])   #Variable used to prevent Hunter from leaving screen
-hunterPOS = hunterMax   #Hunter's start position
 
 
 snake = Snake(snakeLeft) #Snake starts the game looking left
+AliveSprites.add(snake)
 
 control_direction = [0,0]   #variable used to move hunter
 invItemsPossessed = []
@@ -112,44 +141,15 @@ while True:
         snakePOS = (0,snakePOS[1])
     if snakePOS[1] < 0:         
         snakePOS = (snakePOS[0],0)
-    if snakePOS[0] > hunterMax[0]:
-        snakePOS = (hunterMax[0], snakePOS[1])
-    if snakePOS[1] > hunterMax[1]:
-        snakePOS = (snakePOS[0],hunterMax[1])
         
     if oldPOS[0] > snakePOS[0]:
         snake.image = snakeLeft
     elif oldPOS[0] < snakePOS[0]:
         snake.image = snakeRight
-    windowSurfaceObj.blit(snake.image, snakePOS)
 
-    
-    #Hunter's stuffs
-    oldHPOS = hunterPOS
-    
-    if random.randint(0,10) == 10:
-        hchange = (random.choice(choice),random.choice(choice))
-    # Calculate the new position based on randomness plus the control direction
-    for item in invItemsPossessed:
-        if item.getMovementMod():
-            control_direction[0] += item.getMovementMod()
-    hunterPOS = (hunterPOS[0]+hchange[0]+control_direction[0],hunterPOS[1]+hchange[1]+control_direction[1])
-    if hunterPOS[0] > hunterMax[0]:
-        hunterPOS = (hunterMax[0], hunterPOS[1])
-    if hunterPOS[1] > hunterMax[1]:
-        hunterPOS = (hunterPOS[0],hunterMax[1])
-    if hunterPOS[0] < 0:
-        hunterPOS = (0, hunterPOS[1])
-    if hunterPOS[1] < 0:
-        hunterPOS = (hunterPOS[0],0)
-
-    if oldHPOS[0] > hunterPOS[0]:
-        hunter.image = hunterLeft
-    elif oldHPOS[0] < hunterPOS[0] :
-        hunter.image = hunterRight
-    windowSurfaceObj.blit(hunter.image, hunterPOS)
-    
-        
+    print AliveSprites    
+    AliveSprites.draw(windowSurfaceObj) 
+    hunter.update()        
 
 
     for event in pygame.event.get():
@@ -160,39 +160,23 @@ while True:
             if event.key == K_ESCAPE:
                 pygame.event.post(pygame.event.Event(QUIT))
             if event.key == K_RIGHT:
-                control_direction[0] = 3
+                hunter.movex = 1
             if event.key == K_LEFT:
-                control_direction[0] = -3
+                hunter.movex = -1
             if event.key == K_DOWN:
-                control_direction[1] = 3
+                hunter.movey = 1
             if event.key == K_UP:
-                control_direction[1] = -3
+                hunter.movey = -1
 
         if event.type == KEYUP:
             if event.key == K_RIGHT:
-                control_direction[0] = 0
+                hunter.movex = 0
             if event.key == K_LEFT:
-                control_direction[0] = 0
+                hunter.movex = 0
             if event.key == K_DOWN:
-                control_direction[1] = 0
+                hunter.movey = 0
             if event.key == K_UP:
-                control_direction[1] = 0
-
-    ydiff = abs(snakePOS[1] - hunterPOS[1])
-    xdiff = abs(snakePOS[0] - hunterPOS[0])
-    if ydiff == 0:
-        ydiff = 1
-    dist = math.sqrt(xdiff**2 + ydiff**2)
-    distRatio = 1.0 - (dist/math.sqrt(1008**2 + 630**2))
-    if abs(dist) > 200:
-        hunterChannel.pause()
-        # Make the volume softer when the hunter is more distant.
-        snakeChannel.set_volume(distRatio)
-        snakeChannel.unpause()
-    elif abs(dist) < 200:
-        snakeChannel.pause()
-        hunterChannel.unpause()
-    print(distRatio)
+                hunter.movey = 0
 
     pygame.display.update()
     fpsClock.tick(30)
