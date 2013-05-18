@@ -37,7 +37,7 @@ snakeRight.set_colorkey(snakeRight.get_at((0,0)))
 Inventory = pygame.image.load('Inventory.png')
 #Load inventory sprites
 invItems = []
-invItems.append(InventoryItem('RaccoonLeaf.gif'))
+invItems.append(InventoryItem('leaf.png'))
 
 invItems[0].setMovementMod(6)
 
