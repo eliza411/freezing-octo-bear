@@ -23,7 +23,7 @@ def main():
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
     AliveSprites = pygame.sprite.Group(hunter)
 
-    Inventory = pygame.image.load('assets/images/Inventory.png')
+    Inventory = pygame.image.load('assets/images/inventory.png')
     #Load inventory sprites
     itemSprites = pygame.sprite.Group()
     for x in range(10):
