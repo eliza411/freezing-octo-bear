@@ -1,9 +1,9 @@
 import pygame, sys, random, math 
 from pygame.locals import *
-import hunter, snake, items
+import hunterclass, snakeclass, items
 
 FPS = 30
-if __name__ == '__main__':
+def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
 
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
     catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
 
-    hunter =  hunter.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
+    hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
     AliveSprites = pygame.sprite.Group(hunter)
 
     Inventory = pygame.image.load('assets/images/Inventory.png')
@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     snakes = pygame.sprite.Group()
     for x in range(5):
-        snakeActor = snake.Snake() #Create one snake
+        snakeActor = snakeclass.Snake() #Create one snake
         AliveSprites.add(snakeActor)
         snakes.add(snakeActor)
 
@@ -108,3 +108,6 @@ if __name__ == '__main__':
 
         pygame.display.flip()
         fpsClock.tick(FPS)
+
+if __name__ == '__main__':
+    main()
