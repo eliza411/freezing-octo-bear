@@ -15,7 +15,12 @@ class InventoryItem(pygame.sprite.Sprite):
     def getMovementMod(self):
         return self.movemod
     def use(self):
+        print('Action not defined')
+        
+class Leaf(InventoryItem):
+    def __init__(self):
+        InventoryItem.__init__(self, 'assets/images/leaf.png')
+        self.setMovementMod(5)
+    def use(self):
         self.active = eat_a_snake.FPS * 10 #seconds
         pygame.mixer.Sound("assets/audio/zOOOOOOoooOOOOOm.ogg").play()
-        
-        

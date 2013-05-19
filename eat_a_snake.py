@@ -27,7 +27,7 @@ def main():
     #Load inventory sprites
     itemSprites = pygame.sprite.Group()
     for x in range(10):
-        leaf = items.InventoryItem('assets/images/leaf.png')
+        leaf = items.Leaf()
         itemSprites.add(leaf)
         AliveSprites.add(leaf)
         leaf.setMovementMod(5)
