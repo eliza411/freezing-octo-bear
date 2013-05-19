@@ -21,10 +21,7 @@ def main():
     windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
     catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
 
-    AliveSprites = pygame.sprite.Group()
-
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
-    AliveSprites.add(hunter)
 
     Inventory = pygame.image.load('assets/images/inventory.png')
     #Load inventory sprites
@@ -32,7 +29,6 @@ def main():
     for x in range(10):
         leaf = items.Leaf()
         itemSprites.add(leaf)
-        AliveSprites.add(leaf)
         leaf.setMovementMod(5)
         if hunter.rect.colliderect(leaf.rect): #If we start with a collision move the leaf
             leaf.rect.x = random.randint(50, 950)
@@ -40,7 +36,6 @@ def main():
     for x in range(5):
         egg = items.FireEgg()
         itemSprites.add(egg)
-        AliveSprites.add(egg)
         egg.setMovementMod(5)
         if hunter.rect.colliderect(egg.rect): #If we start with a collision move the egg
             egg.rect.x = random.randint(50, 950)
@@ -52,7 +47,6 @@ def main():
     snakes = pygame.sprite.Group()
     for x in range(5):
         snakeActor = snakeclass.Snake() #Create one snake
-        AliveSprites.add(snakeActor)
         snakes.add(snakeActor)
 
     while True:
@@ -62,9 +56,13 @@ def main():
         if collide:
             hunter.inventory.add(collide)
 
-        AliveSprites.draw(windowSurfaceObj) 
+        collide =  pygame.sprite.groupcollide(hunter.projectiles, snakes, True, True)
+
+        itemSprites.draw(windowSurfaceObj)
+        snakes.draw(windowSurfaceObj) 
         hunter.inventory.draw(windowSurfaceObj)
         hunter.projectiles.draw(windowSurfaceObj)
+        windowSurfaceObj.blit(hunter.image, hunter.rect.topleft)
         hunter.update()
         snakes.update()
 
