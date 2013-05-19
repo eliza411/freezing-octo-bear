@@ -65,10 +65,11 @@ class Fireball(pygame.sprite.Sprite):
     def __init__(self, origin, direction):
         pygame.sprite.Sprite.__init__(self)
         self.direction = direction
-        self.image = pygame.image.load('assets/images/fireegg.png')
+        self.image = pygame.image.load('assets/images/fireball.png')
+        print self.image.get_colorkey()
         self.image.set_colorkey(self.image.get_at((0,0)))
+        print self.image.get_colorkey()
         self.rect = self.image.get_rect()
         self.rect.topleft = origin
-        print self.rect.topleft
     def update(self):
-        self.rect.x += self.direction
+        self.rect.x += self.direction*10
