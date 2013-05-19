@@ -72,5 +72,24 @@ class Fireball(pygame.sprite.Sprite):
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
         self.rect.topleft = origin
+        self.duration = 5
+        self.target = None
     def update(self):
-        self.rect.x += self.direction*10
+        if self.target:
+            #burn the target
+            self.rect.center = self.target.rect.center
+            self.rect.x += random.choice((-10,0,10))
+            if time.time() > self.endtime:
+                self.target.movement_speed += 2
+                self.kill()
+        else:
+            #fly around
+            self.rect.x += self.direction*10
+    def use(self, target):
+        self.target = target
+        self.image = pygame.transform.rotate(self.image,-90)
+        target.movement_speed -= 2
+        self.endtime = time.time() + self.duration
+
+
+

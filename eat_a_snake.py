@@ -3,7 +3,7 @@ from pygame.locals import *
 import hunterclass, snakeclass, items
 
 FPS = 30
-
+x = 0
 def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
@@ -46,7 +46,7 @@ def main():
 
     snakes = pygame.sprite.Group()
     for x in range(5):
-        snakeActor = snakeclass.Snake() #Create one snake
+        snakeActor = snakeclass.Snake(windowSurfaceObj) #Create one snake
         snakes.add(snakeActor)
 
     while True:
@@ -60,7 +60,11 @@ def main():
         # Only hits center mass effect snake
         def centerMass(projectile,target):
             return projectile.rect.collidepoint(target.rect.center)
-        collide =  pygame.sprite.groupcollide(hunter.projectiles, snakes, True, True, centerMass)
+        collide =  pygame.sprite.groupcollide(hunter.projectiles, snakes, True, False, centerMass)
+        for fireball, hit_snakes in collide.items():
+            hit_snake = hit_snakes[0] # Only one can be hit
+            hit_snake.effects.add(fireball)
+            fireball.use(hit_snake)
 
         itemSprites.draw(windowSurfaceObj)
         snakes.draw(windowSurfaceObj) 
