@@ -37,10 +37,11 @@ if __name__ == '__main__':
 
     windowSurfaceObj.blit(catSurfaceObj, (0,0))                 #Draw the background
 
-    snake = snake.Snake() #Create one snake
-    AliveSprites.add(snake)
-
-        
+    snakes = pygame.sprite.Group()
+    for x in range(5):
+        snakeActor = snake.Snake() #Create one snake
+        AliveSprites.add(snakeActor)
+        snakes.add(snakeActor)
 
     while True:
         windowSurfaceObj.blit(catSurfaceObj, (0,0)) #Constantly draw background
@@ -52,8 +53,7 @@ if __name__ == '__main__':
         AliveSprites.draw(windowSurfaceObj) 
         hunter.inventory.draw(windowSurfaceObj)
         hunter.update()
-        snake.update()
-
+        snakes.update()
 
         for event in pygame.event.get():
             if event.type == QUIT:
