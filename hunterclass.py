@@ -17,6 +17,7 @@ class Hunter(pygame.sprite.Sprite):
         self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
         self.inventory =  pygame.sprite.Group()
         self.effects =  pygame.sprite.Group()
+        self.projectiles =  pygame.sprite.Group()
 
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.

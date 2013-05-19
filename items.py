@@ -39,3 +39,36 @@ class Leaf(InventoryItem):
             # Reduce the hunter's movement speed before we destroy ourself
             self.target.movement_speed -= self.movemod
             self.kill()
+        
+
+class FireEgg(InventoryItem):
+    def __init__(self):
+        InventoryItem.__init__(self, 'assets/images/fireegg.png')
+        self.duration = 3
+
+    def use(self, target):
+        self.setTarget(target)
+        self.active = True
+        self.sound = pygame.mixer.Sound("assets/audio/volcanosplode.ogg")
+        self.endtime = time.time() + self.duration
+        self.sound.set_volume(1.0)
+        self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
+
+    def update(self):
+        if self.active:
+            fireball = Fireball(self.target.rect.topleft, -1) # -1 is left
+            self.target.projectiles.add(fireball)
+            if self.endtime < time.time():
+                self.kill()
+
+class Fireball(pygame.sprite.Sprite):
+    def __init__(self, origin, direction):
+        pygame.sprite.Sprite.__init__(self)
+        self.direction = direction
+        self.image = pygame.image.load('assets/images/fireegg.png')
+        self.image.set_colorkey(self.image.get_at((0,0)))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = origin
+        print self.rect.topleft
+    def update(self):
+        self.rect.x += self.direction

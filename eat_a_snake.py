@@ -3,6 +3,7 @@ from pygame.locals import *
 import hunterclass, snakeclass, items
 
 FPS = 30
+
 def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
@@ -10,18 +11,20 @@ def main():
     snakeSound = pygame.mixer.Sound('assets/audio/slither.wav')
     hunterSound = pygame.mixer.Sound('assets/audio/hunt.wav')
 
-    snakeChannel = pygame.mixer.Channel(1)
-    snakeChannel.play(snakeSound, -1)
-    snakeChannel.pause()
-    hunterChannel = pygame.mixer.Channel(2)
-    hunterChannel.play(hunterSound, -1)
-    hunterChannel.pause()
+#    snakeChannel = pygame.mixer.Channel(1)
+#    snakeChannel.play(snakeSound, -1)
+#    snakeChannel.pause()
+#    hunterChannel = pygame.mixer.Channel(2)
+#    hunterChannel.play(hunterSound, -1)
+#    hunterChannel.pause()
 
     windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
     catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
 
+    AliveSprites = pygame.sprite.Group()
+
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
-    AliveSprites = pygame.sprite.Group(hunter)
+    AliveSprites.add(hunter)
 
     Inventory = pygame.image.load('assets/images/inventory.png')
     #Load inventory sprites
@@ -34,6 +37,15 @@ def main():
         if hunter.rect.colliderect(leaf.rect): #If we start with a collision move the leaf
             leaf.rect.x = random.randint(50, 950)
             leaf.rect.y = random.randint(50, 580)
+    for x in range(5):
+        egg = items.FireEgg()
+        itemSprites.add(egg)
+        AliveSprites.add(egg)
+        egg.setMovementMod(5)
+        if hunter.rect.colliderect(egg.rect): #If we start with a collision move the egg
+            egg.rect.x = random.randint(50, 950)
+            egg.rect.y = random.randint(50, 580)
+
 
     windowSurfaceObj.blit(catSurfaceObj, (0,0))                 #Draw the background
 
@@ -52,6 +64,7 @@ def main():
 
         AliveSprites.draw(windowSurfaceObj) 
         hunter.inventory.draw(windowSurfaceObj)
+        hunter.projectiles.draw(windowSurfaceObj)
         hunter.update()
         snakes.update()
 
