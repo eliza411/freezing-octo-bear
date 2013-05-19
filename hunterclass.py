@@ -31,20 +31,19 @@ class Hunter(pygame.sprite.Sprite):
 
         self.movex = 0
         self.movey = 0
+        self.movement_speed = 4 # default speed
         self.choice = range(-5,6)        #Made a list of -5 to 5
 
     def update(self):
+        self.effects.update() # This where the effects do their magic based on the update() function in their item class.
         self.move(self.movex, self.movey)
         for item, x in zip(self.inventory, range(len(self.inventory))):
             item.rect.x = x*70
             item.rect.y = 635
 
     def move(self, dx ,dy):
-        mspd = 4
-        for item in self.effects:
-            if item.active:
-                mspd += item.getMovementMod()
-                item.active -= 1
+        mspd = self.movement_speed
+
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd
         if self.rect.bottomright[0] > 1007:
@@ -69,9 +68,7 @@ class Hunter(pygame.sprite.Sprite):
     def consume(self, invNum):
         invList = self.inventory.sprites()
         if len(invList) > invNum:
-            invList[invNum].use()
-            self.effects.add(invList[invNum])
-            self.inventory.remove(invList[invNum])
-            
-            
-
+            consumed_item = invList[invNum] # Put the consumed items in an easy to read var.
+            consumed_item.use(self) # Point the effect at the hunter.
+            self.effects.add(consumed_item)
+            self.inventory.remove(consumed_item)
