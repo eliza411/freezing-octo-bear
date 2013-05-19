@@ -30,7 +30,7 @@ def main():
         leaf = items.InventoryItem('assets/images/leaf.png')
         itemSprites.add(leaf)
         AliveSprites.add(leaf)
-        leaf.setMovementMod(6)
+        leaf.setMovementMod(5)
         if hunter.rect.colliderect(leaf.rect): #If we start with a collision move the leaf
             leaf.rect.x = random.randint(50, 950)
             leaf.rect.y = random.randint(50, 580)

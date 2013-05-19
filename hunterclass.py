@@ -40,7 +40,7 @@ class Hunter(pygame.sprite.Sprite):
             item.rect.y = 635
 
     def move(self, dx ,dy):
-        mspd = 1
+        mspd = 4
         for item in self.effects:
             if item.active:
                 mspd += item.getMovementMod()
