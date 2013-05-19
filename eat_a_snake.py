@@ -56,7 +56,11 @@ def main():
         if collide:
             hunter.inventory.add(collide)
 
-        collide =  pygame.sprite.groupcollide(hunter.projectiles, snakes, True, True)
+
+        # Only hits center mass effect snake
+        def centerMass(projectile,target):
+            return projectile.rect.collidepoint(target.rect.center)
+        collide =  pygame.sprite.groupcollide(hunter.projectiles, snakes, True, True, centerMass)
 
         itemSprites.draw(windowSurfaceObj)
         snakes.draw(windowSurfaceObj) 
