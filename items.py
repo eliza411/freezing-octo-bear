@@ -1,4 +1,4 @@
-import pygame, sys, random, math, eat_a_snake
+import pygame, sys, random, math, eat_a_snake, time
 from pygame.locals import *
 
 class InventoryItem(pygame.sprite.Sprite):
@@ -10,10 +10,32 @@ class InventoryItem(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(50, 950)
         self.rect.y = random.randint(50, 580)
+        self.movemod = 0
+        self.target = None
+    def setTarget(self, target):
+        self.target = target
     def setMovementMod(self, mod):
         self.movemod = mod
     def getMovementMod(self):
         return self.movemod
     def use(self):
-        self.active = eat_a_snake.FPS * 10 #seconds
+        print('Action not defined')
         
+class Leaf(InventoryItem):
+    def __init__(self):
+        InventoryItem.__init__(self, 'assets/images/leaf.png')
+        self.setMovementMod(5)
+        
+    def use(self, target):
+        self.setTarget(target)
+        self.active = True
+        self.sound = pygame.mixer.Sound("assets/audio/zOOOOOOoooOOOOOm.ogg")
+        self.endtime = time.time() + self.sound.get_length()
+        self.sound.play()
+        self.target.movement_speed += self.movemod # Up the target (probably the hunter's) speed
+    def update(self):
+        # Check for active and duration. Delete at the end because leaves are consumable.
+        if self.active and self.endtime < time.time():
+            # Reduce the hunter's movement speed before we destroy ourself
+            self.target.movement_speed -= self.movemod
+            self.kill()

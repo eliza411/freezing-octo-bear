@@ -1,14 +1,11 @@
 import pygame, sys, random, math 
 from pygame.locals import *
-import hunter, snake, items
+import hunterclass, snakeclass, items
 
 FPS = 30
-if __name__ == '__main__':
+def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
-
-
-
 
     snakeSound = pygame.mixer.Sound('assets/audio/slither.wav')
     hunterSound = pygame.mixer.Sound('assets/audio/hunt.wav')
@@ -20,77 +17,43 @@ if __name__ == '__main__':
     hunterChannel.play(hunterSound, -1)
     hunterChannel.pause()
 
-
     windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
     catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
 
-
-    img =  pygame.image.load('assets/images/seamless-tile.png')
-    xcatSurfaceObj = pygame.Surface((8000,6000))
-    for y in range(0,6000,400):
-        for x in range(0,8000,640):
-            xcatSurfaceObj.blit(img,(x,y))
-
-
-    snakeLeft = pygame.image.load('assets/images/snake_left.png').convert()   #Set Snake sprites
-    snakeRight = pygame.image.load('assets/images/snake_right.png').convert()
-    snakeLeft.set_colorkey(snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
-    snakeRight.set_colorkey(snakeRight.get_at((0,0)))
-
-
-    hunter =  hunter.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
+    hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
     AliveSprites = pygame.sprite.Group(hunter)
 
     Inventory = pygame.image.load('assets/images/Inventory.png')
     #Load inventory sprites
-    invItems = []
+    itemSprites = pygame.sprite.Group()
     for x in range(10):
-        leaf = items.InventoryItem('assets/images/leaf.png')
-        invItems.append(leaf)
-        leaf.setMovementMod(6)
-        if hunter.rect.colliderect(leaf.rect):
+        leaf = items.Leaf()
+        itemSprites.add(leaf)
+        AliveSprites.add(leaf)
+        leaf.setMovementMod(5)
+        if hunter.rect.colliderect(leaf.rect): #If we start with a collision move the leaf
             leaf.rect.x = random.randint(50, 950)
             leaf.rect.y = random.randint(50, 580)
 
-    choice = range(-5,6)        #Made a list of -5 to 5
-    change = (random.choice(choice),random.choice(choice))      
-    hchange = (random.choice(choice),random.choice(choice))
     windowSurfaceObj.blit(catSurfaceObj, (0,0))                 #Draw the background
 
-
-
-    snake = snake.Snake(snakeLeft) #Snake starts the game looking left
-    AliveSprites.add(snake)
-
-    control_direction = [0,0]   #variable used to move hunter
-    invItemsPossessed = []
-
-
-    spriteGroup = pygame.sprite.Group()
-    for item in invItems:
-        spriteGroup.add(item)
-        AliveSprites.add(item)
-        
+    snakes = pygame.sprite.Group()
+    for x in range(5):
+        snakeActor = snakeclass.Snake() #Create one snake
+        AliveSprites.add(snakeActor)
+        snakes.add(snakeActor)
 
     while True:
-        windowSurfaceObj.blit(catSurfaceObj, (0,0))             #Constantly draw background
-        if random.randint(0,10) == 10:
-            change = (random.choice(choice),random.choice(choice))
-
-        windowSurfaceObj.blit(Inventory, (0,630))
-        for item in invItemsPossessed:
-            windowSurfaceObj.blit(item.image, (3,633))
-            
-        collide =  pygame.sprite.spritecollide(hunter, spriteGroup, True)
+        windowSurfaceObj.blit(catSurfaceObj, (0,0)) #Constantly draw background
+        windowSurfaceObj.blit(Inventory, (0,630)) #Draw the iventory boxes every refresh
+        collide =  pygame.sprite.spritecollide(hunter, itemSprites, True)
         if collide:
             hunter.inventory.add(collide)
-
 
         AliveSprites.draw(windowSurfaceObj) 
         hunter.inventory.draw(windowSurfaceObj)
         hunter.update()
-        snake.update()
-
+        snakes.update()
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -117,6 +80,9 @@ if __name__ == '__main__':
                     hunter.consume(8)
                 if event.key == K_0:
                     hunter.consume(9)
+
+                if event.key == K_PERIOD:
+                    pygame.mixer.Sound("assets/audio/flawless_victory.wav").play()
                 
                 
                 if event.key == K_ESCAPE:
@@ -141,6 +107,7 @@ if __name__ == '__main__':
                     hunter.movey = 0
 
         pygame.display.flip()
-        
         fpsClock.tick(FPS)
-    #y1-x1/y2-x2
+
+if __name__ == '__main__':
+    main()
