@@ -1,4 +1,4 @@
-import pygame, sys, random, math, eat_a_snake, time
+import pygame, sys, random, math, eat_a_snake, time, hunterclass
 from pygame.locals import *
 
 class InventoryItem(pygame.sprite.Sprite):
@@ -27,6 +27,7 @@ class Leaf(InventoryItem):
         self.setMovementMod(5)
         
     def use(self, target):
+        self.rect.bottomright = (0,0) # Hide the sprite when item is used.
         self.setTarget(target)
         self.active = True
         self.sound = pygame.mixer.Sound("assets/audio/zOOOOOOoooOOOOOm.ogg")
@@ -46,8 +47,12 @@ class FireEgg(InventoryItem):
         InventoryItem.__init__(self, 'assets/images/fireegg.png')
         self.duration = 3
         self.firetimer = 0
+        self.allowed_target_types = (hunterclass.Hunter,)
 
     def use(self, target):
+        if type(target) not in self.allowed_target_types:
+            self.kill()
+            return
         self.setTarget(target)
         self.active = True
         self.sound = pygame.mixer.Sound("assets/audio/volcanosplode.ogg")

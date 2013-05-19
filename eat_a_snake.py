@@ -66,6 +66,13 @@ def main():
             hit_snake.effects.add(fireball)
             fireball.use(hit_snake)
 
+        # Snakes can pick up items too
+        collide =  pygame.sprite.groupcollide(itemSprites, snakes, True, False, centerMass)
+        for item, hit_snakes in collide.items():
+            hit_snake = hit_snakes[0] # Only one can have the item
+            hit_snake.effects.add(item)
+            item.use(hit_snake) # Snakes always use their items right away.
+
         itemSprites.draw(windowSurfaceObj)
         snakes.draw(windowSurfaceObj) 
         hunter.inventory.draw(windowSurfaceObj)
