@@ -3,7 +3,8 @@ from pygame.locals import *
 import hunterclass, snakeclass, items
 
 FPS = 30
-x = 0
+XRES = 1008
+YRES = 700
 def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
@@ -18,7 +19,7 @@ def main():
 #    hunterChannel.play(hunterSound, -1)
 #    hunterChannel.pause()
 
-    windowSurfaceObj = pygame.display.set_mode((1008,700))      #Set window size
+    windowSurfaceObj = pygame.display.set_mode((XRES,YRES))      #Set window size
     catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
 
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
