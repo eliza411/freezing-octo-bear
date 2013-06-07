@@ -1,4 +1,5 @@
 from pygame.locals import *
+from locals import *
 import pygame, sys, random, math
 
 
@@ -26,7 +27,7 @@ class Hunter(pygame.sprite.Sprite):
         # Fetch the rectangle object that has the dimensions of the image
         # Update the position of this object by setting the values of rect.x and rect.y
         self.rect = self.image.get_rect()
-        self.hunterMax = (1000-self.rect.x, 630-self.rect.y)   #Variable used to prevent Hunter from leaving screen
+        self.hunterMax = DOMAIN.values()   #Variable used to prevent Hunter from leaving screen
         self.rect.x += self.hunterMax[0]/2   #Hunter's start position(in the middle of the screen!!!)
         self.rect.y += self.hunterMax[1]/2   #Hunter's start position
 
@@ -48,10 +49,10 @@ class Hunter(pygame.sprite.Sprite):
 
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd
-        if self.rect.bottomright[0] > 1007:
+        if self.rect.bottomright[0] > DOMAIN['x']:
             self.rect.x -= dx*mspd
 
-        if self.rect.bottomright[1] > 630:
+        if self.rect.bottomright[1] > DOMAIN['y']:
             self.rect.y -= dy*mspd
 
         if self.rect.topleft[0] < 0:

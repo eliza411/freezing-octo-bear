@@ -1,5 +1,6 @@
 import pygame, sys, random, math, eat_a_snake, time, hunterclass
 from pygame.locals import *
+from locals import *
 
 class InventoryItem(pygame.sprite.Sprite):
     def __init__(self, image):
@@ -8,8 +9,8 @@ class InventoryItem(pygame.sprite.Sprite):
         self.image = pygame.image.load(image)
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(50, 950)
-        self.rect.y = random.randint(50, 580)
+        self.rect.x = random.randint(50, DOMAIN['x'])
+        self.rect.y = random.randint(50, DOMAIN['y'])
         self.movemod = 0
         self.target = None
     def setTarget(self, target):
