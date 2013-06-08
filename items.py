@@ -98,7 +98,7 @@ class Fireball(pygame.sprite.Sprite):
             self.rect.x += self.direction*10
     def use(self, target):
         self.target = target
-        self.image = pygame.transform.rotate(self.image,-90)
+        self.image = pygame.transform.rotate(self.image,-270)
         target.movement_speed -= 2
         self.endtime = time.time() + self.duration
 
