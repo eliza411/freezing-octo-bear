@@ -154,8 +154,17 @@ def main():
 
                 if event.key == K_PERIOD:
                     pygame.mixer.Sound("assets/audio/flawless_victory.wav").play()
-                    leaf = items.Leaf()
-                    hunter.inventory.add(leaf)
+                    randnum = random.choice(range(3))
+                    
+                    if randnum == 0:                        
+                        leaf = items.Leaf()
+                        hunter.inventory.add(leaf)
+                    if randnum == 1:
+                        fireegg = items.FireEgg()
+                        hunter.inventory.add(fireegg)
+                    if randnum == 2:
+                        fireBloom = items.FireBloom()
+                        hunter.inventory.add(fireBloom)
                     
                 
                 
