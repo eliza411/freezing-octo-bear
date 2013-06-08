@@ -64,20 +64,16 @@ class FireEgg(InventoryItem):
     def update(self):
         if self.active:
             if self.firetimer < time.time():
-                if(self.target.movex < 0):
-                    fireball = Fireball(self.target.rect.topleft, -self.target.movement_speed) 
-                elif(self.target.movex > 0):    
-                    fireball = Fireball(self.target.rect.topleft, self.target.movement_speed)
-                else:
-                    fireball = Fireball(self.target.rect.topleft, -1)# -1 is left
+                fireball = Fireball(self.target.rect.topleft, self.target.movex, self.target.movement_speed) 
                 self.target.projectiles.add(fireball)
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
 
 class Fireball(pygame.sprite.Sprite):
-    def __init__(self, origin, direction):
+    def __init__(self, origin, direction, fireball_speed):
         pygame.sprite.Sprite.__init__(self)
+        self.fireball_speed = fireball_speed
         self.direction = direction
         self.image = pygame.image.load('assets/images/fireball.png')
         self.image.set_colorkey(self.image.get_at((0,0)))
@@ -95,7 +91,7 @@ class Fireball(pygame.sprite.Sprite):
                 self.kill()
         else:
             #fly around
-            self.rect.x += self.direction*10
+            self.rect.x += (self.direction * self.fireball_speed) + (10 * self.direction) #fireball speed
     def use(self, target):
         self.target = target
         self.image = pygame.transform.rotate(self.image,-270)
@@ -104,7 +100,7 @@ class Fireball(pygame.sprite.Sprite):
 
 class AimedFireball(Fireball):
     def __init__(self, origin, direction, aimed_at):
-        Fireball.__init__(self, origin, direction)
+        Fireball.__init__(self, origin, direction, 0)
         self.aimed_at = aimed_at
         self.dest = aimed_at.rect.copy()
 

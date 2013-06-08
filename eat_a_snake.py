@@ -3,6 +3,7 @@ from pygame.locals import *
 from locals import *
 import hunterclass, snakeclass, items, cameraclass
 
+
 def generateWorld():
     tiles_names = ['assets/images/seamless-background.png',
         'assets/images/seamless-helltile.bmp',
@@ -53,7 +54,6 @@ def main():
     camera = cameraclass.Camera(windowSurfaceObj,hunter)
 
     Inventory = pygame.image.load('assets/images/inventory.png')
-
     #Load inventory sprites
     itemSprites = pygame.sprite.Group()
     for x in range(50):
@@ -114,7 +114,6 @@ def main():
         camera.draw(snakes)
         hunter.inventory.draw(windowSurfaceObj)
         camera.draw(hunter.projectiles)
-        camera.draw(hunter.solidSprites)
         camera.drawsingle(hunter)
         #windowSurfaceObj.blit(hunter.image, hunter.rect.topleft)
         hunter.update()
@@ -148,9 +147,7 @@ def main():
                     hunter.consume(9)
 
                 if event.key == K_PERIOD:
-                    sound = pygame.mixer.Sound("assets/audio/flawless_victory.wav")
-                    sound.set_volume(0.33)
-                    sound.play()
+                    pygame.mixer.Sound("assets/audio/flawless_victory.wav").play()
                     leaf = items.Leaf()
                     hunter.inventory.add(leaf)
                     
