@@ -6,7 +6,7 @@ class InventoryItem(pygame.sprite.Sprite):
     def __init__(self, image):
         self.active = 0
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image)
+        self.image = pygame.image.load(image).convert()
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(50, DOMAIN['x'])
@@ -49,7 +49,7 @@ class FireEgg(InventoryItem):
         InventoryItem.__init__(self, 'assets/images/fireegg.png')
         self.duration = 3
         self.firetimer = 0
-        self.allowed_target_types = (hunterclass.Hunter,)
+        self.allowed_target_types = (hunterclass.Hunter, snakeclass.Snake)
 
     def use(self, target):
         if type(target) not in self.allowed_target_types:
@@ -98,6 +98,7 @@ class Fireball(pygame.sprite.Sprite):
                 self.kill()
         else:
             #fly around
+            print(self.direction, self.fireball_speed)
             self.rect.x += (self.direction * self.fireball_speed) + (10 * self.direction) #fireball speed
             
     def use(self, target):
