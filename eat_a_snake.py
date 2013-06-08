@@ -35,8 +35,8 @@ def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
 
-    snakeSound = pygame.mixer.Sound('assets/audio/slither.wav')
-    hunterSound = pygame.mixer.Sound('assets/audio/hunt.wav')
+    #snakeSound = pygame.mixer.Sound('assets/audio/slither.wav')
+    #hunterSound = pygame.mixer.Sound('assets/audio/hunt.wav')
 
 #    snakeChannel = pygame.mixer.Channel(1)
 #    snakeChannel.play(snakeSound, -1)
@@ -48,7 +48,7 @@ def main():
     windowSurfaceObj = pygame.display.set_mode((XRES,YRES))      #Set window size
     #catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
     #bkgd = generateWorld()
-    bkgd = pygame.transform.scale(pygame.image.load('assets/images/bigbg.png').convert(),DOMAIN.values())         #Set background sprite
+    bkgd = pygame.transform.scale(pygame.image.load('assets/images/bigbg.png').convert(),list(DOMAIN.values()))         #Set background sprite
 
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
     camera = cameraclass.Camera(windowSurfaceObj,hunter)

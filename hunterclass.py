@@ -27,7 +27,7 @@ class Hunter(pygame.sprite.Sprite):
         # Fetch the rectangle object that has the dimensions of the image
         # Update the position of this object by setting the values of rect.x and rect.y
         self.rect = self.image.get_rect()
-        self.hunterMax = DOMAIN.values()   #Variable used to prevent Hunter from leaving screen
+        self.hunterMax = list(DOMAIN.values())   #Variable used to prevent Hunter from leaving screen
         self.rect.x += self.hunterMax[0]/2   #Hunter's start position(in the middle of the screen!!!)
         self.rect.y += self.hunterMax[1]/2   #Hunter's start position
 

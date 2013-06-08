@@ -37,5 +37,3 @@ class Camera():
             self.screen.x = 0
         if self.screen.y < 0:
             self.screen.y = 0
-        print "hunter: ", self.hunter.rect.center
-        print "camera: ", self.screen.center
