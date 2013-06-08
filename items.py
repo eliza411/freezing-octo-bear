@@ -102,6 +102,31 @@ class Fireball(pygame.sprite.Sprite):
         target.movement_speed -= 2
         self.endtime = time.time() + self.duration
 
+class AimedFireball(Fireball):
+    def __init__(self, origin, direction, aimed_at):
+        Fireball.__init__(self, origin, direction)
+        self.aimed_at = aimed_at
+        self.dest = aimed_at.rect.copy()
+
+    def update(self):
+        if self.target:
+            #burn the target
+            self.rect.center = self.target.rect.center
+            self.rect.x += random.choice((-10,0,10))
+            if time.time() > self.endtime:
+                self.target.movement_speed += 2
+                self.kill()
+        else:
+            #fly around
+            if self.rect.x > self.dest.x:
+                self.rect.x -= 5
+            elif self.rect.x < self.dest.x:
+                self.rect.x += 5
+            if self.rect.y > self.dest.y:
+                self.rect.y -= 5
+            elif self.rect.y < self.dest.y:
+                self.rect.y += 5
+
 class FireBloom(InventoryItem):
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/firebloom.bmp')
@@ -125,12 +150,7 @@ class FireBloom(InventoryItem):
     def update(self):
         if self.active:
             if self.firetimer < time.time():
-                if(self.target.movex < 0):
-                    fireball = Fireball(self.target.rect.topleft, -self.target.movement_speed) 
-                elif(self.target.movex > 0):    
-                    fireball = Fireball(self.target.rect.topleft, self.target.movement_speed)
-                else:
-                    fireball = Fireball(self.target.rect.topleft, -1)# -1 is left
+                fireball = AimedFireball(self.rect.topleft, -1, self.target)
                 self.target.projectiles.add(fireball)
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
