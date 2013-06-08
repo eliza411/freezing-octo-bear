@@ -40,6 +40,7 @@ class Hunter(pygame.sprite.Sprite):
 
     def update(self):
         self.effects.update() # This where the effects do their magic based on the update() function in their item class.
+        self.camera.draw(self.effects)
         self.projectiles.update() # This where the effects do their magic based on the update() function in their item class.
         self.move(self.movex, self.movey)
         for item, x in zip(self.inventory, range(len(self.inventory))):
@@ -48,6 +49,8 @@ class Hunter(pygame.sprite.Sprite):
 
     def move(self, dx ,dy):
         mspd = self.movement_speed
+        if mspd < 0:
+            mspd = 0
 
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd

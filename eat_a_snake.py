@@ -52,7 +52,8 @@ def main():
 
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
     camera = cameraclass.Camera(windowSurfaceObj,hunter)
-
+    hunter.camera = camera
+    
     Inventory = pygame.image.load('assets/images/inventory.png')
     #Load inventory sprites
     itemSprites = pygame.sprite.Group()
@@ -102,6 +103,11 @@ def main():
             hit_snake = hit_snakes[0] # Only one can be hit
             hit_snake.effects.add(fireball)
             fireball.use(hit_snake)
+
+        collide =  pygame.sprite.spritecollide(hunter, hunter.projectiles, True, centerMass)
+        for fireball in collide:
+            hunter.effects.add(fireball)
+            fireball.use(hunter)
 
         # Snakes can pick up items too
         collide =  pygame.sprite.groupcollide(itemSprites, snakes, True, False, centerMass)

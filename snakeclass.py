@@ -16,6 +16,8 @@ class Snake(pygame.sprite.Sprite):
         self.change = (0,0)
         self.effects = pygame.sprite.Group()
         self.movement_speed = 2
+        self.movex = 1
+        self.movey = 1
 
     def update(self):
         self.effects.update()

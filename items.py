@@ -1,4 +1,4 @@
-import pygame, sys, random, math, eat_a_snake, time, hunterclass
+import pygame, sys, random, math, eat_a_snake, time, hunterclass, snakeclass
 from pygame.locals import *
 from locals import *
 
