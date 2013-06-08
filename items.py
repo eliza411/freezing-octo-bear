@@ -64,7 +64,12 @@ class FireEgg(InventoryItem):
     def update(self):
         if self.active:
             if self.firetimer < time.time():
-                fireball = Fireball(self.target.rect.topleft, -1) # -1 is left
+                if(self.target.movex < 0):
+                    fireball = Fireball(self.target.rect.topleft, -self.target.movement_speed) 
+                elif(self.target.movex > 0):    
+                    fireball = Fireball(self.target.rect.topleft, self.target.movement_speed)
+                else:
+                    fireball = Fireball(self.target.rect.topleft, -1)# -1 is left
                 self.target.projectiles.add(fireball)
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():

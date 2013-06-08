@@ -63,7 +63,7 @@ def main():
         if hunter.rect.colliderect(leaf.rect): #If we start with a collision move the leaf
             leaf.rect.x = random.randint(50, DOMAIN['x'])
             leaf.rect.y = random.randint(50, DOMAIN['y'])
-    for x in range(5):
+    for x in range(50):
         egg = items.FireEgg()
         itemSprites.add(egg)
         egg.setMovementMod(5)
