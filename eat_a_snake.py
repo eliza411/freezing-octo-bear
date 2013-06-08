@@ -70,7 +70,13 @@ def main():
         if hunter.rect.colliderect(egg.rect): #If we start with a collision move the egg
             egg.rect.x = random.randint(50, DOMAIN['x'])
             egg.rect.y = random.randint(50, DOMAIN['y'])
-
+    for x in range(50):
+        egg = items.FireBloom()
+        itemSprites.add(egg)
+        egg.setMovementMod(5)
+        if hunter.rect.colliderect(egg.rect): #If we start with a collision move the egg
+            egg.rect.x = random.randint(50, DOMAIN['x'])
+            egg.rect.y = random.randint(50, DOMAIN['y'])
 
 #    windowSurfaceObj.blit(bkgd, (5000,5000))                 #Draw the background
 
