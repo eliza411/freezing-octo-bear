@@ -56,7 +56,7 @@ def main():
     Inventory = pygame.image.load('assets/images/inventory.png')
     #Load inventory sprites
     itemSprites = pygame.sprite.Group()
-    for x in range(10):
+    for x in range(50):
         leaf = items.Leaf()
         itemSprites.add(leaf)
         leaf.setMovementMod(5)
@@ -142,6 +142,9 @@ def main():
 
                 if event.key == K_PERIOD:
                     pygame.mixer.Sound("assets/audio/flawless_victory.wav").play()
+                    leaf = items.Leaf()
+                    hunter.inventory.add(leaf)
+                    
                 
                 
                 if event.key == K_ESCAPE:

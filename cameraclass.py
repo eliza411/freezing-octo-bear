@@ -37,3 +37,10 @@ class Camera():
             self.screen.x = 0
         if self.screen.y < 0:
             self.screen.y = 0
+        if self.screen.bottomright[0] > DOMAIN['x']:
+            self.screen.bottomright = [DOMAIN['x'], self.screen.bottomright[1]]
+        if self.screen.bottomright[1] > DOMAIN['y']:
+            self.screen.bottomright = [self.screen.bottomright[0], DOMAIN['y']]
+        
+        
+            
