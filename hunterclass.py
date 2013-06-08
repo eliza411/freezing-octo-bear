@@ -19,6 +19,8 @@ class Hunter(pygame.sprite.Sprite):
         self.inventory =  pygame.sprite.Group()
         self.effects =  pygame.sprite.Group()
         self.projectiles =  pygame.sprite.Group()
+        #Location for not pick-able sprites.
+        self.solidSprites = pygame.sprite.Group()
 
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.

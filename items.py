@@ -105,7 +105,7 @@ class Fireball(pygame.sprite.Sprite):
 class FireBloom(InventoryItem):
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/firebloom.bmp')
-        self.duration = 3
+        self.duration = 10
         self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter,)
 
@@ -115,10 +115,12 @@ class FireBloom(InventoryItem):
             return
         self.setTarget(target)
         self.active = True
-        self.sound = pygame.mixer.Sound("assets/audio/volcanosplode.ogg")
+        self.sound = pygame.mixer.Sound("assets/audio/door.wav")
         self.endtime = time.time() + self.duration
         self.sound.set_volume(1.0)
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
+        self.rect.topleft = target.rect.topleft
+        self.target.solidSprites.add(self)
 
     def update(self):
         if self.active:
