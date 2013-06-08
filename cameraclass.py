@@ -18,8 +18,8 @@ class Camera():
         rect.x -= self.screen.x
         rect.y -= self.screen.y
         return rect
-        
-        
+
+
     def draw(self, sprites):
         surface_blit = self.window.blit
         for spr in sprites:
@@ -29,10 +29,19 @@ class Camera():
         self.window.blit(sprite.image, self.convert(sprite.rect))
 
     def update(self):
-        if abs(self.screen.center[0] - self.hunter.rect.center[0]) > self.slack:
-            self.screen.center = (self.hunter.rect.center[0]-100, self.screen.center[1])
-        if abs(self.screen.center[1] - self.hunter.rect.center[1]) > self.slack:
-            self.screen.center = (self.screen.center[0], self.hunter.rect.center[1]-100)
+        if self.screen.center[0] - self.hunter.rect.center[0] > self.slack:
+            self.screen.center = (self.hunter.rect.center[0] + self.slack, self.screen.center[1])
+        if self.screen.center[1] - self.hunter.rect.center[1] > self.slack:
+            self.screen.center = (self.screen.center[0], self.hunter.rect.center[1] + self.slack)
+            
+        if -self.screen.center[0] + self.hunter.rect.center[0] > self.slack:
+            self.screen.center = (self.hunter.rect.center[0] - self.slack, self.screen.center[1])
+        if -self.screen.center[1] + self.hunter.rect.center[1] > self.slack:
+            self.screen.center = (self.screen.center[0], self.hunter.rect.center[1] - self.slack)
+
+
+
+
         if self.screen.x < 0:
             self.screen.x = 0
         if self.screen.y < 0:
@@ -41,6 +50,6 @@ class Camera():
             self.screen.bottomright = [DOMAIN['x'], self.screen.bottomright[1]]
         if self.screen.bottomright[1] > DOMAIN['y']:
             self.screen.bottomright = [self.screen.bottomright[0], DOMAIN['y']]
-        
-        
-            
+
+
+
