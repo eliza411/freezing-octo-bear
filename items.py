@@ -21,6 +21,9 @@ class InventoryItem(pygame.sprite.Sprite):
         return self.movemod
     def use(self):
         print('Action not defined')
+    def update(self):
+        self.rect.y += GRAVITY
+    
         
 class Leaf(InventoryItem):
     def __init__(self):
@@ -41,7 +44,7 @@ class Leaf(InventoryItem):
             # Reduce the hunter's movement speed before we destroy ourself
             self.target.movement_speed -= self.movemod
             self.kill()
-            
+        InventoryItem.update(self)
         
 
 class FireEgg(InventoryItem):
@@ -63,6 +66,7 @@ class FireEgg(InventoryItem):
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
 
     def update(self):
+        self.rect.y += GRAVITY
         if self.active:
             if self.firetimer < time.time():
                 fireball = Fireball(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
@@ -70,7 +74,7 @@ class FireEgg(InventoryItem):
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
-
+        InventoryItem.update(self)
 
 class Fireball(pygame.sprite.Sprite):
     def __init__(self, origin, direction, fireball_speed, owner):
@@ -99,6 +103,7 @@ class Fireball(pygame.sprite.Sprite):
         else:
             #fly around
             self.rect.x += (self.direction * self.fireball_speed) + (10 * self.direction) #fireball speed
+        InventoryItem.update(self)
             
     def use(self, target):
         if target == self.owner:
@@ -133,7 +138,7 @@ class AimedFireball(Fireball):
                 self.rect.y -= 5
             elif self.rect.y < self.dest.y:
                 self.rect.y += 5
-
+        InventoryItem.update(self)
 
 class FireBloom(InventoryItem):
     def __init__(self):
@@ -166,3 +171,4 @@ class FireBloom(InventoryItem):
                     self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
+        InventoryItem.update(self)

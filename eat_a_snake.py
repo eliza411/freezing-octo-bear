@@ -122,6 +122,7 @@ def main():
         camera.draw(hunter.projectiles)
         camera.drawsingle(hunter)
         #windowSurfaceObj.blit(hunter.image, hunter.rect.topleft)
+        itemSprites.update()
         hunter.update()
         snakes.update()
         camera.update()

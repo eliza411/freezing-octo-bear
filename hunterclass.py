@@ -49,6 +49,8 @@ class Hunter(pygame.sprite.Sprite):
 
     def move(self, dx ,dy):
         mspd = abs(self.movement_speed)
+        if self.rect.bottomright[1] < DOMAIN['y']:
+            self.rect.y += GRAVITY
         
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd

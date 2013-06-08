@@ -30,6 +30,7 @@ class Snake(pygame.sprite.Sprite):
         mspd = self.movement_speed
         if mspd < 0:
             mspd = 0
+        self.rect.y += GRAVITY
         
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd
