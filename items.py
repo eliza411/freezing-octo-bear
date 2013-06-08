@@ -118,7 +118,7 @@ class AimedFireball(Fireball):
         Fireball.__init__(self, origin, direction, 0, 0)
         self.aimed_at = aimed_at
         self.dest = aimed_at.rect.copy()
-        self.image = pygame.image.load('assets/images/blue-fireball.jpg').convert()
+        self.image = pygame.image.load('assets/images/blue-fireball.png').convert()
         self.image.set_colorkey(self.image.get_at((0,0)))
 
     def update(self):
