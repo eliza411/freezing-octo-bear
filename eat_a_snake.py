@@ -165,7 +165,6 @@ def main():
                     if randnum == 2:
                         fireBloom = items.FireBloom()
                         hunter.inventory.add(fireBloom)
-                    
                 
                 
                 if event.key == K_ESCAPE:
