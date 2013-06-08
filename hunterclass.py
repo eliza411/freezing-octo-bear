@@ -35,7 +35,7 @@ class Hunter(pygame.sprite.Sprite):
 
         self.movex = 0
         self.movey = 0
-        self.movement_speed = 4 # default speed
+        self.movement_speed = 10 # default speed
         self.choice = range(-5,6)        #Made a list of -5 to 5
 
     def update(self):

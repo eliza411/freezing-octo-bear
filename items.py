@@ -84,8 +84,11 @@ class Fireball(pygame.sprite.Sprite):
         self.rect.topleft = origin
         self.duration = 5
         self.target = None
+
         
     def update(self):
+        if self.direction == 0:
+            self.direction = -1
         if self.target:
             #burn the target
             self.rect.center = self.target.rect.center
@@ -136,6 +139,7 @@ class FireBloom(InventoryItem):
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/firebloom.bmp')
         self.duration = 10
+        self.chargetime = 1
         self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter,)
 
@@ -147,6 +151,7 @@ class FireBloom(InventoryItem):
         self.active = True
         self.sound = pygame.mixer.Sound("assets/audio/door.wav")
         self.endtime = time.time() + self.duration
+        self.starttime = time.time() + self.chargetime
         self.sound.set_volume(1.0)
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
         self.rect.topleft = target.rect.topleft
@@ -154,9 +159,10 @@ class FireBloom(InventoryItem):
 
     def update(self):
         if self.active:
-            if self.firetimer < time.time():
-                fireball = AimedFireball(self.rect.topleft, -1, self.target)
-                self.target.projectiles.add(fireball)
-                self.firetimer = time.time() + 0.45
+            if time.time() > self.starttime:
+                if self.firetimer < time.time():
+                    fireball = AimedFireball(self.rect.topleft, -1, self.target)
+                    self.target.projectiles.add(fireball)
+                    self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
