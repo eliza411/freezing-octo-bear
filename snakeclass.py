@@ -1,10 +1,11 @@
 import pygame, sys, random, math 
+from locals import *
 from pygame.locals import *
 
 class Snake(pygame.sprite.Sprite):
-    def __init__(self, surface):
+    def __init__(self, camera):
         pygame.sprite.Sprite.__init__(self)
-        self.surface = surface
+        self.camera = camera
         self.snakeLeft = pygame.image.load('assets/images/snake_left.png').convert()   #Set Snake sprites
         self.snakeRight = pygame.image.load('assets/images/snake_right.png').convert()
         self.snakeLeft.set_colorkey(self.snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
@@ -15,10 +16,12 @@ class Snake(pygame.sprite.Sprite):
         self.change = (0,0)
         self.effects = pygame.sprite.Group()
         self.movement_speed = 2
+        self.movex = 1
+        self.movey = 1
 
     def update(self):
         self.effects.update()
-        self.effects.draw(self.surface)
+        self.camera.draw(self.effects)
         self.move(self.change[0], self.change[1])
         if random.randint(0,10) == 10:
             self.change = (random.choice(self.choice),random.choice(self.choice))
@@ -30,10 +33,10 @@ class Snake(pygame.sprite.Sprite):
         
         self.rect.x += dx*mspd
         self.rect.y += dy*mspd
-        if self.rect.bottomright[0] > 1007:
+        if self.rect.bottomright[0] > DOMAIN['x']:
             self.rect.x -= dx*mspd
 
-        if self.rect.bottomright[1] > 630:
+        if self.rect.bottomright[1] > DOMAIN['y']:
             self.rect.y -= dy*mspd
 
         if self.rect.topleft[0] < 0:

@@ -1,5 +1,6 @@
-import pygame, sys, random, math, eat_a_snake, time, hunterclass
+import pygame, sys, random, math, eat_a_snake, time, hunterclass, snakeclass
 from pygame.locals import *
+from locals import *
 
 class InventoryItem(pygame.sprite.Sprite):
     def __init__(self, image):
@@ -8,8 +9,8 @@ class InventoryItem(pygame.sprite.Sprite):
         self.image = pygame.image.load(image)
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(50, 950)
-        self.rect.y = random.randint(50, 580)
+        self.rect.x = random.randint(50, DOMAIN['x'])
+        self.rect.y = random.randint(50, DOMAIN['y'])
         self.movemod = 0
         self.target = None
     def setTarget(self, target):
@@ -40,6 +41,7 @@ class Leaf(InventoryItem):
             # Reduce the hunter's movement speed before we destroy ourself
             self.target.movement_speed -= self.movemod
             self.kill()
+            
         
 
 class FireEgg(InventoryItem):
@@ -63,15 +65,18 @@ class FireEgg(InventoryItem):
     def update(self):
         if self.active:
             if self.firetimer < time.time():
-                fireball = Fireball(self.target.rect.topleft, -1) # -1 is left
+                fireball = Fireball(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
                 self.target.projectiles.add(fireball)
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
 
+
 class Fireball(pygame.sprite.Sprite):
-    def __init__(self, origin, direction):
+    def __init__(self, origin, direction, fireball_speed, owner):
         pygame.sprite.Sprite.__init__(self)
+        self.owner = owner
+        self.fireball_speed = fireball_speed
         self.direction = direction
         self.image = pygame.image.load('assets/images/fireball.png')
         self.image.set_colorkey(self.image.get_at((0,0)))
@@ -79,6 +84,37 @@ class Fireball(pygame.sprite.Sprite):
         self.rect.topleft = origin
         self.duration = 5
         self.target = None
+
+        
+    def update(self):
+        if self.direction == 0:
+            self.direction = -1
+        if self.target:
+            #burn the target
+            self.rect.center = self.target.rect.center
+            self.rect.x += random.choice((-10,0,10))
+            if time.time() > self.endtime:
+                self.target.movement_speed += 2
+                self.kill()
+        else:
+            #fly around
+            self.rect.x += (self.direction * self.fireball_speed) + (10 * self.direction) #fireball speed
+            
+    def use(self, target):
+        if target == self.owner:
+            return 0
+        self.target = target
+        self.image = pygame.transform.rotate(self.image,-270)
+        target.movement_speed -= 2
+        self.endtime = time.time() + self.duration
+
+
+class AimedFireball(Fireball):
+    def __init__(self, origin, direction, aimed_at):
+        Fireball.__init__(self, origin, direction, 0, 0)
+        self.aimed_at = aimed_at
+        self.dest = aimed_at.rect.copy()
+
     def update(self):
         if self.target:
             #burn the target
@@ -89,12 +125,44 @@ class Fireball(pygame.sprite.Sprite):
                 self.kill()
         else:
             #fly around
-            self.rect.x += self.direction*10
+            if self.rect.x > self.dest.x:
+                self.rect.x -= 5
+            elif self.rect.x < self.dest.x:
+                self.rect.x += 5
+            if self.rect.y > self.dest.y:
+                self.rect.y -= 5
+            elif self.rect.y < self.dest.y:
+                self.rect.y += 5
+
+
+class FireBloom(InventoryItem):
+    def __init__(self):
+        InventoryItem.__init__(self, 'assets/images/firebloom.bmp')
+        self.duration = 10
+        self.chargetime = 1
+        self.firetimer = 0
+        self.allowed_target_types = (hunterclass.Hunter,)
+
     def use(self, target):
-        self.target = target
-        self.image = pygame.transform.rotate(self.image,-90)
-        target.movement_speed -= 2
+        if type(target) not in self.allowed_target_types:
+            self.kill()
+            return
+        self.setTarget(target)
+        self.active = True
+        self.sound = pygame.mixer.Sound("assets/audio/door.wav")
         self.endtime = time.time() + self.duration
+        self.starttime = time.time() + self.chargetime
+        self.sound.set_volume(1.0)
+        self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
+        self.rect.topleft = target.rect.topleft
+        self.target.solidSprites.add(self)
 
-
-
+    def update(self):
+        if self.active:
+            if time.time() > self.starttime:
+                if self.firetimer < time.time():
+                    fireball = AimedFireball(self.rect.topleft, -1, self.target)
+                    self.target.projectiles.add(fireball)
+                    self.firetimer = time.time() + 0.45
+            if self.endtime < time.time():
+                self.kill()
