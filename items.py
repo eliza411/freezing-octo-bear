@@ -78,7 +78,10 @@ class Fireball(pygame.sprite.Sprite):
         self.owner = owner
         self.fireball_speed = fireball_speed
         self.direction = direction
-        self.image = pygame.image.load('assets/images/fireball.png')
+        if type(owner) == snakeclass.Snake:
+            self.image = pygame.image.load('assets/images/green-fireball.png')
+        else:
+            self.image = pygame.image.load('assets/images/fireball.png')
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
         self.rect.topleft = origin

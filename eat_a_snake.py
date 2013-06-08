@@ -104,16 +104,10 @@ def main():
             hit_snake.effects.add(fireball)
             fireball.use(hit_snake)
 
-        for snake in snakes:       
-            collide =  pygame.sprite.spritecollide(hunter, snake.projectiles, True, centerMass)
-            for fireball in collide:
-                hunter.effects.add(fireball)
-                fireball.use(hunter)
         collide =  pygame.sprite.spritecollide(hunter, hunter.projectiles, True, centerMass)
         for fireball in collide:
             hunter.effects.add(fireball)
             fireball.use(hunter)
-
 
         # Snakes can pick up items too
         collide =  pygame.sprite.groupcollide(itemSprites, snakes, True, False, centerMass)
@@ -128,6 +122,7 @@ def main():
         camera.draw(hunter.projectiles)
         camera.drawsingle(hunter)
         #windowSurfaceObj.blit(hunter.image, hunter.rect.topleft)
+        itemSprites.update()
         hunter.update()
         snakes.update()
         camera.update()
