@@ -26,7 +26,6 @@ class Leaf(InventoryItem):
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/leaf.png')
         self.setMovementMod(5)
-        
     def use(self, target):
         self.rect.bottomright = (0,0) # Hide the sprite when item is used.
         self.setTarget(target)
@@ -50,7 +49,6 @@ class FireEgg(InventoryItem):
         self.duration = 3
         self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter, snakeclass.Snake)
-
     def use(self, target):
         if type(target) not in self.allowed_target_types:
             self.kill()
@@ -61,7 +59,6 @@ class FireEgg(InventoryItem):
         self.endtime = time.time() + self.duration
         self.sound.set_volume(1.0)
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
-
     def update(self):
         if self.active:
             if self.firetimer < time.time():
@@ -87,8 +84,6 @@ class Fireball(pygame.sprite.Sprite):
         self.rect.topleft = origin
         self.duration = 5
         self.target = None
-
-        
     def update(self):
         if self.direction == 0:
             self.direction = -1
@@ -120,7 +115,6 @@ class AimedFireball(Fireball):
         self.dest = aimed_at.rect.copy()
         self.image = pygame.image.load('assets/images/blue-fireball.png').convert()
         self.image.set_colorkey(self.image.get_at((0,0)))
-
     def update(self):
         if self.target:
             #burn the target
@@ -148,7 +142,6 @@ class FireBloom(InventoryItem):
         self.chargetime = 1
         self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter,)
-
     def use(self, target):
         if type(target) not in self.allowed_target_types:
             self.kill()
@@ -172,3 +165,34 @@ class FireBloom(InventoryItem):
                     self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
+                
+                
+                
+               
+class Leaf(InventoryItem):
+    def __init__(self):
+        InventoryItem.__init__(self, 'assets/images/leaf.png')
+        self.setMovementMod(5)
+    def use(self, target):
+        self.rect.bottomright = (0,0) # Hide the sprite when item is used.
+        self.setTarget(target)
+        self.active = True
+        self.sound = pygame.mixer.Sound("assets/audio/zOOOOOOoooOOOOOm.ogg")
+        self.endtime = time.time() + self.sound.get_length()
+        self.sound.play()
+        self.target.movement_speed += self.movemod # Up the target (probably the hunter's) speed
+    def update(self):
+        # Check for active and duration. Delete at the end because leaves are consumable.
+        if self.active and self.endtime < time.time():
+            # Reduce the hunter's movement speed before we destroy ourself
+            self.target.movement_speed -= self.movemod
+            self.kill() 
+                
+                
+                
+                
+                
+                
+                
+                
+                
