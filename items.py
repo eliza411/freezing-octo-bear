@@ -168,14 +168,60 @@ class FireBloom(InventoryItem):
 
 class Fork(InventoryItem):
     def __init__(self):
-        InventoryItem.__init__(self, 'assets/images/fork.png')
+        InventoryItem.__init__(self, 'assets/images/Fork.png')
+        self.duration = 3
+        self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter,)
     def use(self, target):
         if type(target) not in self.allowed_target_types:
             self.kill()
             return
-        self.rect.bottomright = (0,0) # Hide the sprite when item is used.
         self.setTarget(target)
         self.active = True
         self.sound = pygame.mixer.Sound("assets/audio/hunt.wav")
-        self.sound.play()
+        self.endtime = time.time() + self.duration
+        self.sound.set_volume(1.0)
+        self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
+    def update(self):
+        if self.active:
+            if self.firetimer < time.time():
+                bubble = Bubble(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
+                self.target.projectiles.add(bubble)
+                self.firetimer = time.time() + 0.45
+            if self.endtime < time.time():
+                self.kill()
+
+
+class Bubble(pygame.sprite.Sprite):
+    def __init__(self, origin, direction, bubble_speed, owner):
+        pygame.sprite.Sprite.__init__(self)
+        self.owner = owner
+        self.bubble_speed = bubble_speed
+        self.direction = direction
+        self.image = pygame.image.load('assets/images/bubble.png').convert()
+        self.image.set_colorkey(self.image.get_at((0,0)))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = origin
+        self.duration = 5
+        self.target = None
+    def update(self):
+        if self.direction == 0:
+            self.direction = -1
+        if self.target:
+            #burn the target
+            self.rect.center = self.target.rect.center
+            self.rect.x += random.choice((-10,0,10))
+            if time.time() > self.endtime:
+                self.target.movement_speed += 2
+                self.kill()
+        else:
+            #fly around
+            print(self.direction, self.bubble_speed)
+            self.rect.x += (self.direction * self.bubble_speed) + (10 * self.direction) #fireball speed
+    def use(self, target):
+        if target == self.owner:
+            return 0
+        self.target = target
+        self.image = pygame.transform.rotate(self.image,-270)
+        target.movement_speed -= 2
+        self.endtime = time.time() + self.duration

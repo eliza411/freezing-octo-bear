@@ -85,7 +85,7 @@ def main():
             egg.rect.x = random.randint(50, DOMAIN['x'])
             egg.rect.y = random.randint(50, DOMAIN['y'])
             
-    for i in range(10):
+    for i in range(50):
         fork = items.Fork()
         itemSprites.add(fork)
         if hunter.rect.colliderect(fork.rect): #Prevent fork from starting on top of player
