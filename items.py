@@ -168,7 +168,7 @@ class FireBloom(InventoryItem):
 
 class Fork(InventoryItem):
     def __init__(self):
-        InventoryItem.__init__(self, 'assets/images/Fork.png')
+        InventoryItem.__init__(self, 'assets/images/fork.png')
         self.duration = 3
         self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter,)
