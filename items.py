@@ -169,7 +169,11 @@ class FireBloom(InventoryItem):
 class Fork(InventoryItem):
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/fork.png')
+        self.allowed_target_types = (hunterclass.Hunter,)
     def use(self, target):
+        if type(target) not in self.allowed_target_types:
+            self.kill()
+            return
         self.rect.bottomright = (0,0) # Hide the sprite when item is used.
         self.setTarget(target)
         self.active = True
