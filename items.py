@@ -21,11 +21,12 @@ class InventoryItem(pygame.sprite.Sprite):
         return self.movemod
     def use(self):
         print('Action not defined')
-        
+
+
 class Leaf(InventoryItem):
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/leaf.png')
-        self.setMovementMod(5)
+        self.setMovementMod(5)  #NOTE: already have leaf.setMovementMod(5) in eat_a_snake.py ln65
     def use(self, target):
         self.rect.bottomright = (0,0) # Hide the sprite when item is used.
         self.setTarget(target)
@@ -40,8 +41,7 @@ class Leaf(InventoryItem):
             # Reduce the hunter's movement speed before we destroy ourself
             self.target.movement_speed -= self.movemod
             self.kill()
-            
-        
+
 
 class FireEgg(InventoryItem):
     def __init__(self):
@@ -155,7 +155,6 @@ class FireBloom(InventoryItem):
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
         self.rect.topleft = target.rect.topleft
         self.target.solidSprites.add(self)
-
     def update(self):
         if self.active:
             if time.time() > self.starttime:
@@ -165,34 +164,14 @@ class FireBloom(InventoryItem):
                     self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
-                
-                
-                
-               
-class Leaf(InventoryItem):
+
+
+class Fork(InventoryItem):
     def __init__(self):
-        InventoryItem.__init__(self, 'assets/images/leaf.png')
-        self.setMovementMod(5)
+        InventoryItem.__init__(self, 'assets/images/fork.png')
     def use(self, target):
         self.rect.bottomright = (0,0) # Hide the sprite when item is used.
         self.setTarget(target)
         self.active = True
-        self.sound = pygame.mixer.Sound("assets/audio/zOOOOOOoooOOOOOm.ogg")
-        self.endtime = time.time() + self.sound.get_length()
+        self.sound = pygame.mixer.Sound("assets/audio/hunt.wav")
         self.sound.play()
-        self.target.movement_speed += self.movemod # Up the target (probably the hunter's) speed
-    def update(self):
-        # Check for active and duration. Delete at the end because leaves are consumable.
-        if self.active and self.endtime < time.time():
-            # Reduce the hunter's movement speed before we destroy ourself
-            self.target.movement_speed -= self.movemod
-            self.kill() 
-                
-                
-                
-                
-                
-                
-                
-                
-                

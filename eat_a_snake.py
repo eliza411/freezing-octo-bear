@@ -57,6 +57,8 @@ def main():
     Inventory = pygame.image.load('assets/images/inventory.png')
     #Load inventory sprites
     itemSprites = pygame.sprite.Group()
+    
+    #Create Leaves
     for x in range(50):
         leaf = items.Leaf()
         itemSprites.add(leaf)
@@ -64,6 +66,8 @@ def main():
         if hunter.rect.colliderect(leaf.rect): #If we start with a collision move the leaf
             leaf.rect.x = random.randint(50, DOMAIN['x'])
             leaf.rect.y = random.randint(50, DOMAIN['y'])
+            
+    #Create FireEggs
     for x in range(50):
         egg = items.FireEgg()
         itemSprites.add(egg)
@@ -71,6 +75,8 @@ def main():
         if hunter.rect.colliderect(egg.rect): #If we start with a collision move the egg
             egg.rect.x = random.randint(50, DOMAIN['x'])
             egg.rect.y = random.randint(50, DOMAIN['y'])
+        
+    #Create firebloom
     for x in range(50):
         egg = items.FireBloom()
         itemSprites.add(egg)
@@ -78,6 +84,13 @@ def main():
         if hunter.rect.colliderect(egg.rect): #If we start with a collision move the egg
             egg.rect.x = random.randint(50, DOMAIN['x'])
             egg.rect.y = random.randint(50, DOMAIN['y'])
+            
+    for i in range(10):
+        fork = items.Fork()
+        itemSprites.add(fork)
+        if hunter.rect.colliderect(fork.rect): #Prevent fork from starting on top of player
+            fork.rect.x = random.randint(50, DOMAIN['x'])
+            fork.rect.y = random.randint(50, DOMAIN['y'])
 
 #    windowSurfaceObj.blit(bkgd, (5000,5000))                 #Draw the background
 
