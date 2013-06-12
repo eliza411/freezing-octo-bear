@@ -166,11 +166,13 @@ def main():
                     hunter.consume(8)
                 if event.key == K_0:
                     hunter.consume(9)
+                    
+                if event.key == K_SPACE:
+                    items.Fork.shoot = 1
 
                 if event.key == K_PERIOD:
                     pygame.mixer.Sound("assets/audio/flawless_victory.wav").play()
                     randnum = random.choice(range(3))
-                    
                     if randnum == 0:                        
                         leaf = items.Leaf()
                         hunter.inventory.add(leaf)
@@ -180,7 +182,6 @@ def main():
                     if randnum == 2:
                         fireBloom = items.FireBloom()
                         hunter.inventory.add(fireBloom)
-                
                 
                 if event.key == K_ESCAPE:
                     pygame.event.post(pygame.event.Event(QUIT))
