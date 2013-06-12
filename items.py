@@ -172,10 +172,10 @@ class FireBloom(InventoryItem):
 
 
 class Fork(InventoryItem):
+    shoot = 0   #Member variable, because self.shoot won't let me refer to it with keydown commands over in eat_a_snake.py
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/fork.png')
         self.duration = 3
-        self.firetimer = 0
         self.allowed_target_types = (hunterclass.Hunter,)
     def use(self, target):
         if type(target) not in self.allowed_target_types:
@@ -189,12 +189,10 @@ class Fork(InventoryItem):
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
     def update(self):
         if self.active:
-            if self.firetimer < time.time():
+            if Fork.shoot:
                 bubble = Bubble(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
                 self.target.projectiles.add(bubble)
-                self.firetimer = time.time() + 0.45
-            if self.endtime < time.time():
-                self.kill()
+                Fork.shoot = 0 #So that bubbles wont be shot infinitely
 
 
 class Bubble(pygame.sprite.Sprite):
