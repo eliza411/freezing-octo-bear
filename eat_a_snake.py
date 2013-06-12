@@ -77,7 +77,7 @@ def main():
             egg.rect.y = random.randint(50, DOMAIN['y'])
         
     #Create firebloom
-    for x in range(50):
+    for x in range(0):
         egg = items.FireBloom()
         itemSprites.add(egg)
         egg.setMovementMod(5)
@@ -85,6 +85,7 @@ def main():
             egg.rect.x = random.randint(50, DOMAIN['x'])
             egg.rect.y = random.randint(50, DOMAIN['y'])
             
+    #Create fork
     for i in range(50):
         fork = items.Fork()
         itemSprites.add(fork)
