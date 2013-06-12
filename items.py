@@ -105,11 +105,12 @@ class Fireball(pygame.sprite.Sprite):
             
     def use(self, target):
         if target == self.owner:
-            return 0
+            return False
         self.target = target
         self.image = pygame.transform.rotate(self.image,-270)
         target.movement_speed -= 2
         self.endtime = time.time() + self.duration
+        return True #Successfully used let the calling funciton know.
 
 
 class AimedFireball(Fireball):
