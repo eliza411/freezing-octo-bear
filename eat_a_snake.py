@@ -59,7 +59,7 @@ def main():
     itemSprites = pygame.sprite.Group()
     
     #Create Leaves
-    for x in range(50):
+    for x in range(LEAVES_SPAWN):
         leaf = items.Leaf()
         itemSprites.add(leaf)
         leaf.setMovementMod(5)
@@ -68,7 +68,7 @@ def main():
             leaf.rect.y = random.randint(50, DOMAIN['y'])
             
     #Create FireEggs
-    for x in range(50):
+    for x in range(FIREEGG_SPAWN):
         egg = items.FireEgg()
         itemSprites.add(egg)
         egg.setMovementMod(5)
@@ -77,7 +77,7 @@ def main():
             egg.rect.y = random.randint(50, DOMAIN['y'])
         
     #Create firebloom
-    for x in range(0):
+    for x in range(FIREBLOOM_SPAWN):
         egg = items.FireBloom()
         itemSprites.add(egg)
         egg.setMovementMod(5)
@@ -86,7 +86,7 @@ def main():
             egg.rect.y = random.randint(50, DOMAIN['y'])
             
     #Create fork
-    for i in range(50):
+    for i in range(FORK_SPAWN):
         fork = items.Fork()
         itemSprites.add(fork)
         if hunter.rect.colliderect(fork.rect): #Prevent fork from starting on top of player
