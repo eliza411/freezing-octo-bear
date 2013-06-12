@@ -118,10 +118,11 @@ def main():
             hit_snake.effects.add(fireball)
             fireball.use(hit_snake)
 
-        collide =  pygame.sprite.spritecollide(hunter, hunter.projectiles, True, centerMass)
+        collide =  pygame.sprite.spritecollide(hunter, hunter.projectiles, False, centerMass)
         for fireball in collide:
-            hunter.effects.add(fireball)
-            fireball.use(hunter)
+            if fireball.use(hunter):
+                hunter.projectiles.remove(fireball)
+                hunter.effects.add(fireball)
 
         # Snakes can pick up items too
         collide =  pygame.sprite.groupcollide(itemSprites, snakes, True, False, centerMass)
