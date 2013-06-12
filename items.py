@@ -186,6 +186,7 @@ class Fork(InventoryItem):
         self.endtime = time.time() + self.duration
         self.sound.set_volume(1.0)
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
+        hunterclass.Hunter.wieldingMasterFork = 1   #Once the fork is used, tells hunter to wield master fork
     def update(self):
         if self.active:
             if Fork.shoot:

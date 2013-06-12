@@ -5,13 +5,13 @@ import pygame, sys, random, math
 
 
 class Hunter(pygame.sprite.Sprite):
-
+    wieldingMasterFork = 0 #Determines whether hunter used fork.
+    
     # Constructor. Pass in the color of the block,
     # and its x and y position
     def __init__(self, imageLeft, imageRight):
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
-
         self.hunterLeft = pygame.image.load(imageLeft).convert()    #Set hunter sprites
         self.hunterRight = pygame.image.load(imageRight).convert()
         self.hunterLeft.set_colorkey(self.hunterLeft.get_at((0,0)))            #Set hunter background transparency
@@ -39,6 +39,15 @@ class Hunter(pygame.sprite.Sprite):
         self.choice = range(-5,6)        #Made a list of -5 to 5
 
     def update(self):
+        if Hunter.wieldingMasterFork == 0:
+            self.hunterLeft = pygame.image.load('assets/images/ash_left.png').convert()    #Set normal hunter sprites
+            self.hunterRight = pygame.image.load('assets/images/ash_right.png').convert()
+        else:
+            self.hunterLeft = pygame.image.load('assets/images/ash_fork_left.png').convert()    #Set empowered hunter sprites
+            self.hunterRight = pygame.image.load('assets/images/ash_fork_right.png').convert()    
+        self.hunterLeft.set_colorkey(self.hunterLeft.get_at((0,0)))            #Set hunter background transparency
+        self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
+        
         self.effects.update() # This where the effects do their magic based on the update() function in their item class.
         self.camera.draw(self.effects)
         self.projectiles.update() # This where the effects do their magic based on the update() function in their item class.
