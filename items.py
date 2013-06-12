@@ -171,7 +171,7 @@ class FireBloom(InventoryItem):
 
 
 class Fork(InventoryItem):
-    shoot = 0
+    shoot = 0   #Member variable, because self.shoot won't let me refer to it with keydown commands over in eat_a_snake.py
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/fork.png')
         self.duration = 3
@@ -191,7 +191,7 @@ class Fork(InventoryItem):
             if Fork.shoot:
                 bubble = Bubble(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
                 self.target.projectiles.add(bubble)
-                Fork.shoot = 0 
+                Fork.shoot = 0 #So that bubbles wont be shot infinitely
 
 
 class Bubble(pygame.sprite.Sprite):
