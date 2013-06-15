@@ -67,7 +67,7 @@ class FireEgg(InventoryItem):
         if self.active:
             if self.firetimer < time.time():
                 fireball = Fireball(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
-                self.target.projectiles.add(fireball)
+                projectiles.add(fireball)
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
@@ -100,7 +100,6 @@ class Fireball(pygame.sprite.Sprite):
                 self.kill()
         else:
             #fly around
-            print(self.direction, self.fireball_speed)
             self.rect.x += (self.direction * self.fireball_speed) + (10 * self.direction) #fireball speed
             
     def use(self, target):
@@ -159,13 +158,13 @@ class FireBloom(InventoryItem):
         self.sound.set_volume(1.0)
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
         self.rect.topleft = target.rect.topleft
-        self.target.solidSprites.add(self)
+        stationary_objects.add(self)
     def update(self):
         if self.active:
             if time.time() > self.starttime:
                 if self.firetimer < time.time():
                     fireball = AimedFireball(self.rect.topleft, -1, self.target)
-                    self.target.projectiles.add(fireball)
+                    projectiles.add(fireball)
                     self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
@@ -192,7 +191,7 @@ class Fork(InventoryItem):
         if self.active:
             if Fork.shoot:
                 bubble = Bubble(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
-                self.target.projectiles.add(bubble)
+                projectiles.add(bubble)
                 Fork.shoot = 0 #So that bubbles wont be shot infinitely
 
 
@@ -220,7 +219,6 @@ class Bubble(pygame.sprite.Sprite):
                 self.kill()
         else:
             #fly around
-            print(self.direction, self.bubble_speed)
             self.rect.x += (self.direction * self.bubble_speed) + (10 * self.direction) #fireball speed
     def use(self, target):
         if target == self.owner:

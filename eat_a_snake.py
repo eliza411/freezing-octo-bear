@@ -35,19 +35,7 @@ def main():
     pygame.init()
     fpsClock = pygame.time.Clock()
 
-    #snakeSound = pygame.mixer.Sound('assets/audio/slither.wav')
-    #hunterSound = pygame.mixer.Sound('assets/audio/hunt.wav')
-
-#    snakeChannel = pygame.mixer.Channel(1)
-#    snakeChannel.play(snakeSound, -1)
-#    snakeChannel.pause()
-#    hunterChannel = pygame.mixer.Channel(2)
-#    hunterChannel.play(hunterSound, -1)
-#    hunterChannel.pause()
-
     windowSurfaceObj = pygame.display.set_mode((XRES,YRES))      #Set window size
-    #catSurfaceObj = pygame.image.load('assets/images/background.jpg')         #Set background sprite
-    #bkgd = generateWorld()
     bkgd = pygame.transform.scale(pygame.image.load('assets/images/bigbg.png').convert(),list(DOMAIN.values()))         #Set background sprite
 
     hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
@@ -55,8 +43,6 @@ def main():
     hunter.camera = camera
     
     Inventory = pygame.image.load('assets/images/inventory.png')
-    #Load inventory sprites
-    itemSprites = pygame.sprite.Group()
     
     #Create Leaves
     for x in range(LEAVES_SPAWN):
@@ -93,9 +79,7 @@ def main():
             fork.rect.x = random.randint(50, DOMAIN['x'])
             fork.rect.y = random.randint(50, DOMAIN['y'])
 
-#    windowSurfaceObj.blit(bkgd, (5000,5000))                 #Draw the background
 
-    snakes = pygame.sprite.Group()
     for x in range(5):
         snakeActor = snakeclass.Snake(camera) #Create one snake
         snakes.add(snakeActor)
@@ -108,20 +92,21 @@ def main():
         if collide:
             hunter.inventory.add(collide)
 
-
         # Only hits center mass effect snake
         def centerMass(projectile,target):
             return projectile.rect.collidepoint(target.rect.center)
-        collide =  pygame.sprite.groupcollide(hunter.projectiles, snakes, True, False, centerMass)
+        collide =  pygame.sprite.groupcollide(projectiles, snakes, False, False, centerMass)
         for fireball, hit_snakes in collide.items():
-            hit_snake = hit_snakes[0] # Only one can be hit
-            hit_snake.effects.add(fireball)
-            fireball.use(hit_snake)
+            for hit_snake in hit_snakes:
+                if fireball.use(hit_snake):
+                    projectiles.remove(fireball) 
+                    hit_snake.effects.add(fireball)
+                    break # Only one can be hit
 
-        collide =  pygame.sprite.spritecollide(hunter, hunter.projectiles, False, centerMass)
+        collide =  pygame.sprite.spritecollide(hunter, projectiles, False, centerMass)
         for fireball in collide:
             if fireball.use(hunter):
-                hunter.projectiles.remove(fireball)
+                projectiles.remove(fireball)
                 hunter.effects.add(fireball)
 
         # Snakes can pick up items too
@@ -134,10 +119,13 @@ def main():
         camera.draw(itemSprites)
         camera.draw(snakes)
         hunter.inventory.draw(windowSurfaceObj)
-        camera.draw(hunter.projectiles)
+        camera.draw(projectiles)
+        camera.draw(stationary_objects)
         camera.drawsingle(hunter)
-        #windowSurfaceObj.blit(hunter.image, hunter.rect.topleft)
+
         itemSprites.update()
+        projectiles.update() # This where the effects do their magic based on the update() function in their item class.
+        stationary_objects.update()
         hunter.update()
         snakes.update()
         camera.update()

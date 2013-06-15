@@ -15,9 +15,7 @@ class Snake(pygame.sprite.Sprite):
         self.choice = range(-5,6)        #Made a list of -5 to 5
         self.change = (0,0)
         self.effects = pygame.sprite.Group()
-        self.projectiles =  pygame.sprite.Group()
         #Location for not pick-able sprites.
-        self.solidSprites = pygame.sprite.Group()
         self.movement_speed = 2
         self.movex = 1
         self.movey = 1
@@ -25,9 +23,6 @@ class Snake(pygame.sprite.Sprite):
     def update(self):
         self.effects.update()
         self.camera.draw(self.effects)
-        self.camera.draw(self.solidSprites)
-        self.projectiles.update()
-        self.camera.draw(self.projectiles)
         self.move(self.change[0], self.change[1])
         if random.randint(0,10) == 10:
             self.change = (random.choice(self.choice),random.choice(self.choice))

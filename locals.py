@@ -1,9 +1,20 @@
+import pygame
+
 FPS = 30
 XRES = 1008
 YRES = 700
 DOMAIN = {'x':3000,'y':3000}
 
-LEAVES_SPAWN = 100
-FIREEGG_SPAWN = 100
-FIREBLOOM_SPAWN = 0
-FORK_SPAWN = 0
+LEAVES_SPAWN = 50
+FIREEGG_SPAWN = 50
+FIREBLOOM_SPAWN = 50
+FORK_SPAWN = 1
+
+#Location for not pick-able sprites.
+stationary_objects = pygame.sprite.Group()
+#Pickupable sprites
+itemSprites = pygame.sprite.Group()
+#Our lovely villians
+snakes = pygame.sprite.Group()
+#Shooty things
+projectiles = pygame.sprite.Group()

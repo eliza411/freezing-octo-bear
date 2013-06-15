@@ -18,9 +18,6 @@ class Hunter(pygame.sprite.Sprite):
         self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
         self.inventory =  pygame.sprite.Group()
         self.effects =  pygame.sprite.Group()
-        self.projectiles =  pygame.sprite.Group()
-        #Location for not pick-able sprites.
-        self.solidSprites = pygame.sprite.Group()
 
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
@@ -50,7 +47,6 @@ class Hunter(pygame.sprite.Sprite):
         
         self.effects.update() # This where the effects do their magic based on the update() function in their item class.
         self.camera.draw(self.effects)
-        self.projectiles.update() # This where the effects do their magic based on the update() function in their item class.
         self.move(self.movex, self.movey)
         for item, x in zip(self.inventory, range(len(self.inventory))):
             item.rect.x = x*70
