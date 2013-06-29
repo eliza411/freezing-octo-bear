@@ -10,6 +10,9 @@ FIREEGG_SPAWN = 50
 FIREBLOOM_SPAWN = 50
 FORK_SPAWN = 1
 
+LEFT = -1
+RIGHT = 1
+
 #Location for not pick-able sprites.
 stationary_objects = pygame.sprite.Group()
 #Pickupable sprites

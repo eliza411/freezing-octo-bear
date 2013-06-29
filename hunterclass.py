@@ -22,6 +22,7 @@ class Hunter(pygame.sprite.Sprite):
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
         self.image = self.hunterRight
+        self.direction = RIGHT
 
         # Fetch the rectangle object that has the dimensions of the image
         # Update the position of this object by setting the values of rect.x and rect.y
@@ -80,8 +81,10 @@ class Hunter(pygame.sprite.Sprite):
         # Calculate the new position based on randomness plus the control direction
         if left == True:
             self.image = self.hunterLeft
+            self.direction = LEFT
         elif right == True:
             self.image = self.hunterRight
+            self.direction = RIGHT
     def consume(self, invNum):
         invList = self.inventory.sprites()
         if len(invList) > invNum:

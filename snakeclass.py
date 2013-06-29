@@ -11,6 +11,7 @@ class Snake(pygame.sprite.Sprite):
         self.snakeLeft.set_colorkey(self.snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
         self.snakeRight.set_colorkey(self.snakeRight.get_at((0,0)))
         self.image = self.snakeLeft #Snake starts the game looking left
+        self.direction = LEFT
         self.rect = self.image.get_rect()
         self.choice = range(-5,6)        #Made a list of -5 to 5
         self.change = (0,0)
@@ -49,5 +50,7 @@ class Snake(pygame.sprite.Sprite):
         # Calculate the new position based on randomness plus the control direction
         if dx < 0:
             self.image = self.snakeLeft
+            self.direction = LEFT
         elif dx > 0:
             self.image = self.snakeRight
+            self.direction = RIGHT

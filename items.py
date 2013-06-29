@@ -66,7 +66,7 @@ class FireEgg(InventoryItem):
     def update(self):
         if self.active:
             if self.firetimer < time.time():
-                fireball = Fireball(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
+                fireball = Fireball(self.target.rect.topleft, self.target.direction, self.target.movement_speed, self.target) 
                 projectiles.add(fireball)
                 self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
@@ -90,7 +90,7 @@ class Fireball(pygame.sprite.Sprite):
         self.target = None
     def update(self):
         if self.direction == 0:
-            self.direction = -1
+            self.direction = LEFT
         if self.target:
             #burn the target
             self.rect.center = self.target.rect.center
@@ -190,7 +190,7 @@ class Fork(InventoryItem):
     def update(self):
         if self.active:
             if Fork.shoot:
-                bubble = Bubble(self.target.rect.topleft, self.target.movex, self.target.movement_speed, self.target) 
+                bubble = Bubble(self.target.rect.topleft, self.target.direction, self.target.movement_speed, self.target) 
                 projectiles.add(bubble)
                 Fork.shoot = 0 #So that bubbles wont be shot infinitely
 

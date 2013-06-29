@@ -3,7 +3,6 @@ from pygame.locals import *
 from locals import *
 import hunterclass, snakeclass, items, cameraclass
 
-
 def generateWorld():
     tiles_names = ['assets/images/seamless-background.png',
         'assets/images/seamless-helltile.bmp',
