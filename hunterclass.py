@@ -30,8 +30,10 @@ class Hunter(pygame.sprite.Sprite):
         self.rect.x += self.hunterMax[0]/2   #Hunter's start position(in the middle of the screen!!!)
         self.rect.y += self.hunterMax[1]/2   #Hunter's start position
 
-        self.movex = 0
-        self.movey = 0
+        self.moveLeft = False
+        self.moveRight = False
+        self.moveUp = False
+        self.moveDown = False
         self.movement_speed = 10 # default speed
         self.choice = range(-5,6)        #Made a list of -5 to 5
 
@@ -47,34 +49,38 @@ class Hunter(pygame.sprite.Sprite):
         
         self.effects.update() # This where the effects do their magic based on the update() function in their item class.
         self.camera.draw(self.effects)
-        self.move(self.movex, self.movey)
+        self.move(self.moveLeft, self.moveRight, self.moveUp, self.moveDown)
         for item, x in zip(self.inventory, range(len(self.inventory))):
             item.rect.x = x*70
             item.rect.y = 635
 
-    def move(self, dx ,dy):
+    def move(self, left, right, up, down):
         mspd = abs(self.movement_speed)
         
-        self.rect.x += dx*mspd
-        self.rect.y += dy*mspd
+        if left == True:    
+            self.rect.x -= mspd
+        if right == True:
+            self.rect.x += mspd
+        if up == True:
+            self.rect.y -= mspd
+        if down == True:
+            self.rect.y += mspd
+            
         if self.rect.bottomright[0] > DOMAIN['x']:
-            self.rect.x -= dx*mspd
-
+            self.rect.x -= mspd
         if self.rect.bottomright[1] > DOMAIN['y']:
-            self.rect.y -= dy*mspd
-
+            self.rect.y -= mspd
         if self.rect.topleft[0] < 0:
-            self.rect.x -= dx*mspd
-
+            self.rect.x += mspd
         if self.rect.topleft[1] < 0:
-            self.rect.y -= dy*mspd
+            self.rect.y += mspd
 
         if random.randint(0,10) == 10:
             hchange = (random.choice(self.choice),random.choice(self.choice))
         # Calculate the new position based on randomness plus the control direction
-        if dx < 0:
+        if left == True:
             self.image = self.hunterLeft
-        elif dx > 0:
+        elif right == True:
             self.image = self.hunterRight
     def consume(self, invNum):
         invList = self.inventory.sprites()

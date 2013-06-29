@@ -175,23 +175,27 @@ def main():
                 if event.key == K_ESCAPE:
                     pygame.event.post(pygame.event.Event(QUIT))
                 if event.key == K_RIGHT:
-                    hunter.movex = 1
+                    hunter.moveRight = True
+                    hunter.moveLeft = False
                 if event.key == K_LEFT:
-                    hunter.movex = -1
+                    hunter.moveLeft = True
+                    hunter.moveRight = False
                 if event.key == K_DOWN:
-                    hunter.movey = 1
+                    hunter.moveDown = True
+                    hunter.moveUp = False
                 if event.key == K_UP:
-                    hunter.movey = -1
+                    hunter.moveUp = True
+                    hunter.moveDown = False
 
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
-                    hunter.movex = 0
+                    hunter.moveRight = False
                 if event.key == K_LEFT:
-                    hunter.movex = 0
+                    hunter.moveLeft = False
                 if event.key == K_DOWN:
-                    hunter.movey = 0
+                    hunter.moveDown = False
                 if event.key == K_UP:
-                    hunter.movey = 0
+                    hunter.moveUp = False
 
         pygame.display.flip()
         fpsClock.tick(FPS)
