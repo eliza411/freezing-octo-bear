@@ -1,4 +1,4 @@
-import pygame, sys, random, math 
+import pygame, sys, random, math, collections, time
 from locals import *
 from pygame.locals import *
 
@@ -20,6 +20,14 @@ class Snake(pygame.sprite.Sprite):
         self.movement_speed = 2
         self.movex = 1
         self.movey = 1
+        self.status = collections.defaultdict(lambda: False)
+
+    def kill(self):
+        pygame.sprite.Sprite.kill(self)
+        for x in range(5):
+            snakeActor = BabySnake(self.camera) #Create one snake
+            snakeActor.rect.topleft = self.rect.center
+            snakes.add(snakeActor) 
 
     def update(self):
         self.effects.update()
@@ -54,3 +62,41 @@ class Snake(pygame.sprite.Sprite):
         elif dx > 0:
             self.image = self.snakeRight
             self.direction = RIGHT
+
+class BabySnake(Snake):
+    def __init__(self, camera):
+        Snake.__init__(self, camera)
+        self.snakeLeft = pygame.image.load('assets/images/baby_snake.png').convert()   #Set Snake sprites
+        self.snakeLeft.set_colorkey(self.snakeLeft.get_at((0,0)))             #Choose one pixel and make all pixels that color transparent
+        self.snakeRight = pygame.transform.flip(self.snakeLeft, True, False)   #Set Snake sprites
+        self.image = self.snakeLeft #Snake starts the game looking left
+        self.rect = self.image.get_rect()
+        self.choice = range(-5,6)        #Made a list of -5 to 5
+        self.change = (0,0)
+        self.effects = pygame.sprite.Group()
+        #Location for not pick-able sprites.
+        self.movement_speed = 3
+        self.born = time.time()
+        self.seconds_to_adulthood = 50
+        self.grown = False
+
+    def update(self):
+        Snake.update(self)
+        now = time.time()
+        if now > self.born + (self.seconds_to_adulthood/2):
+            self.grow()
+        if now > self.born + self.seconds_to_adulthood:
+            snakeActor = Snake(self.camera) #Create one snake
+            snakeActor.rect.topleft = self.rect.center
+            snakes.add(snakeActor) 
+            self.kill()
+
+    def grow(self):
+        if not self.grown:
+            self.snakeLeft = pygame.transform.scale(self.snakeLeft, (self.rect.w + 50, self.rect.h + 30))
+            self.snakeRight = pygame.transform.flip(self.snakeLeft, True, False)   #Set Snake sprites
+            self.grown = True
+
+
+    def kill(self):
+        pygame.sprite.Sprite.kill(self)

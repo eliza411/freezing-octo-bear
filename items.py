@@ -98,6 +98,7 @@ class Fireball(pygame.sprite.Sprite):
             self.rect.center = self.target.rect.center
             self.rect.x += random.choice((-10,0,10))
             if time.time() > self.endtime:
+                self.target.status['onfire'] = False
                 self.target.movement_speed += 2
                 self.kill()
         elif self.rect.x < 0 or self.rect.y < 0 or self.rect.x > DOMAIN['x'] or self.rect.y > DOMAIN['y']:
@@ -112,6 +113,7 @@ class Fireball(pygame.sprite.Sprite):
         self.target = target
         self.image = pygame.transform.rotate(self.image,-270)
         target.movement_speed -= 2
+        target.status['onfire'] = True
         self.endtime = time.time() + self.duration
         return True #Successfully used let the calling funciton know.
 
@@ -140,6 +142,7 @@ class AimedFireball(Fireball):
             self.rect.x += random.choice((-10,0,10))
             if time.time() > self.endtime:
                 self.target.movement_speed += 2
+                self.target.status['onfire'] = False
                 self.kill()
         elif self.rect.x < 0 or self.rect.y < 0 or self.rect.x > DOMAIN['x'] or self.rect.y > DOMAIN['y']:
             self.kill()
@@ -230,9 +233,15 @@ class Bubble(pygame.sprite.Sprite):
             #burn the target
             self.rect.center = self.target.rect.center
             self.rect.x += random.choice((-10,0,10))
+            if self.target.status['onfire'] == True and type(self.target) == snakeclass.BabySnake:
+                self.target.kill()
             if time.time() > self.endtime:
                 self.target.movement_speed += 2
+                if self.target.status['onfire'] == True and type(self.target) == snakeclass.Snake:
+                    self.target.kill()
                 self.kill()
+        elif self.rect.x < 0 or self.rect.y < 0 or self.rect.x > DOMAIN['x'] or self.rect.y > DOMAIN['y']:
+            self.kill()
         else:
             #fly around
             self.rect.x += (self.direction * self.bubble_speed) + (10 * self.direction) #fireball speed
@@ -243,3 +252,4 @@ class Bubble(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.image,-270)
         target.movement_speed -= 2
         self.endtime = time.time() + self.duration
+        return True #Successfully used let the calling function know.

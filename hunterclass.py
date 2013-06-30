@@ -1,6 +1,6 @@
 from pygame.locals import *
 from locals import *
-import pygame, sys, random, math
+import pygame, sys, random, math, collections
 
 
 
@@ -37,6 +37,7 @@ class Hunter(pygame.sprite.Sprite):
         self.moveDown = False
         self.movement_speed = 10 # default speed
         self.choice = range(-5,6)        #Made a list of -5 to 5
+        self.status = collections.defaultdict(lambda: False)
 
     def update(self):
         if Hunter.wieldingMasterFork == 0:
