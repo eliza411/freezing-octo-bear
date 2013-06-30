@@ -100,6 +100,8 @@ class Fireball(pygame.sprite.Sprite):
             if time.time() > self.endtime:
                 self.target.movement_speed += 2
                 self.kill()
+        elif self.rect.x < 0 or self.rect.y < 0 or self.rect.x > DOMAIN['x'] or self.rect.y > DOMAIN['y']:
+            self.kill()
         else:
             #fly around
             self.rect.x += (self.direction * self.fireball_speed) + (10 * self.direction) #fireball speed
@@ -118,14 +120,19 @@ class AimedFireball(Fireball):
     def __init__(self, origin, direction, aimed_at):
         Fireball.__init__(self, origin, direction, 0, 0)
         self.aimed_at = aimed_at
-        dirx = aimed_at.rect.x - self.rect.x
-        if dirx == 0: dirx = 1
-        diry = aimed_at.rect.y - self.rect.y
-        if diry == 0: diry = 1
-        self.direction  = (1.00001 * diry ) / dirx
+        self.speed = 4
+        if self.rect.x > self.aimed_at.rect.x:
+            self.direction = LEFT
+        else:
+            self.direction = RIGHT
+        self.rise = float(self.rect.y - self.aimed_at.rect.y)
+        self.run = float(self.rect.x - self.aimed_at.rect.x)
+        # self.slope = self.rise/self.run
+        self.angle = (math.atan2(self.run, self.rise) + math.pi/2) 
         self.image = pygame.image.load('assets/images/blue-fireball.png').convert()
         self.image.set_colorkey(self.image.get_at((0,0)))
-        self.image = pygame.transform.rotate(self.image,180 + math.degrees(math.atan(self.direction)))
+        self.image = pygame.transform.rotate(self.image, 180 + math.degrees(self.angle))
+
     def update(self):
         if self.target:
             #burn the target
@@ -134,23 +141,13 @@ class AimedFireball(Fireball):
             if time.time() > self.endtime:
                 self.target.movement_speed += 2
                 self.kill()
+        elif self.rect.x < 0 or self.rect.y < 0 or self.rect.x > DOMAIN['x'] or self.rect.y > DOMAIN['y']:
+            self.kill()
         else:
             #fly around
-            dirx = abs(self.rect.x - self.aimed_at.rect.x)
-            if dirx == 0: dirx = 0.000001
-            diry = self.rect.y - self.aimed_at.rect.y
-            if diry == 0: diry = 0.000001
-            self.direction  = (1.00001 * diry ) / dirx
-            self.image = pygame.image.load('assets/images/blue-fireball.png').convert()
-            self.image.set_colorkey(self.image.get_at((0,0)))
-            if self.rect.x - self.aimed_at.rect.x >= 1:
-                mod = 0
-                self.direction =  -self.direction
-            else:
-                mod = 180
-            self.image = pygame.transform.rotate(self.image, mod +  math.degrees(math.atan(self.direction)))
-            self.rect.x += math.floor(5 * math.sin(self.direction))
-            self.rect.y += math.floor(5 * math.cos(self.direction))
+            self.rect.x += math.floor(self.speed * math.cos(self.angle))
+            self.rect.y += math.floor(-1 * self.speed * math.sin(self.angle)) # Negative -1 because y coordinates going up moves down the screen.
+            self.speed = self.speed**1.02
 
 
 class FireBloom(InventoryItem):
@@ -179,7 +176,7 @@ class FireBloom(InventoryItem):
                 if self.firetimer < time.time():
                     fireball = AimedFireball(self.rect.topleft, -1, self.target)
                     projectiles.add(fireball)
-                    self.firetimer = time.time() + 40.45
+                    self.firetimer = time.time() + 0.45
             if self.endtime < time.time():
                 self.kill()
 
