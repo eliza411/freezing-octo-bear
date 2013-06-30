@@ -37,7 +37,8 @@ def main():
     windowSurfaceObj = pygame.display.set_mode((XRES,YRES))      #Set window size
     bkgd = pygame.transform.scale(pygame.image.load('assets/images/bigbg.png').convert(),list(DOMAIN.values()))         #Set background sprite
 
-    hunter =  hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
+    hunter = hunterclass.Hunter('assets/images/ash_left.png', 'assets/images/ash_right.png') #Hunter starts the game looking left
+    hunters.append(hunter)
     camera = cameraclass.Camera(windowSurfaceObj,hunter)
     hunter.camera = camera
     

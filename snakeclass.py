@@ -24,6 +24,7 @@ class Snake(pygame.sprite.Sprite):
 
     def kill(self):
         pygame.sprite.Sprite.kill(self)
+        pygame.mixer.Sound("assets/audio/spawn.ogg").play()
         for x in range(5):
             snakeActor = BabySnake(self.camera) #Create one snake
             snakeActor.rect.topleft = self.rect.center
@@ -80,8 +81,28 @@ class BabySnake(Snake):
         self.seconds_to_adulthood = 50
         self.grown = False
 
+    def hunter_xshift(self):
+        hunter = hunters[0]
+        if self.rect.x < hunter.rect.x: #Snake is left of hunter
+            return 3
+        if self.rect.x > hunter.rect.x: #Snake is right of hunter
+            return -3
+        return 0
+        
+    def hunter_yshift(self):
+        hunter = hunters[0]        
+        if self.rect.y < hunter.rect.y: #Snake is above hunter
+            return 3
+        if self.rect.y > hunter.rect.y: #Snake is below hunter
+            return -3
+        return 0
+
     def update(self):
-        Snake.update(self)
+        self.effects.update()
+        self.camera.draw(self.effects)
+        self.move(self.change[0], self.change[1])
+        if random.randint(0,10) == 10:
+            self.change = (random.choice(self.choice)+self.hunter_xshift(),random.choice(self.choice)+self.hunter_yshift())
         now = time.time()
         if now > self.born + (self.seconds_to_adulthood/2):
             self.grow()
@@ -99,4 +120,5 @@ class BabySnake(Snake):
 
 
     def kill(self):
+        pygame.mixer.Sound("assets/audio/dead.ogg").play()
         pygame.sprite.Sprite.kill(self)

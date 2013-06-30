@@ -13,6 +13,8 @@ FORK_SPAWN = 2
 LEFT = -1
 RIGHT = 1
 
+hunters = []
+
 #Location for not pick-able sprites.
 stationary_objects = pygame.sprite.Group()
 #Pickupable sprites
