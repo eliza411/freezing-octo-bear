@@ -79,7 +79,7 @@ def main():
             fork.rect.y = random.randint(50, DOMAIN['y'])
 
 
-    for x in range(5):
+    for x in range(3):
         snakeActor = snakeclass.Snake(camera) #Create one snake
         snakes.add(snakeActor)
 
@@ -128,6 +128,11 @@ def main():
         hunter.update()
         snakes.update()
         camera.update()
+
+        if len(snakes) == 0:
+            font = pygame.font.Font(None, 48)
+            text = font.render("What do you plan to eat now, hmmmn?", 1, (200, 200, 200))
+            windowSurfaceObj.blit(text, (200,200))
 
         for event in pygame.event.get():
             if event.type == QUIT:
