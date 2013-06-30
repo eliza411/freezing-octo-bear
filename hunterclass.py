@@ -42,9 +42,12 @@ class Hunter(pygame.sprite.Sprite):
         if Hunter.wieldingMasterFork == 0:
             self.hunterLeft = pygame.image.load('assets/images/ash_left.png').convert()    #Set normal hunter sprites
             self.hunterRight = pygame.image.load('assets/images/ash_right.png').convert()
-        else:
+        elif Hunter.wieldingMasterFork == 1:
             self.hunterLeft = pygame.image.load('assets/images/ash_fork_left.png').convert()    #Set empowered hunter sprites
-            self.hunterRight = pygame.image.load('assets/images/ash_fork_right.png').convert()    
+            self.hunterRight = pygame.image.load('assets/images/ash_fork_right.png').convert()
+        else:
+            self.hunterLeft = pygame.image.load('assets/images/ash_dualfork_left.png').convert()    #Set empowered hunter sprites
+            self.hunterRight = pygame.image.load('assets/images/ash_dualfork_right.png').convert()
         self.hunterLeft.set_colorkey(self.hunterLeft.get_at((0,0)))            #Set hunter background transparency
         self.hunterRight.set_colorkey(self.hunterRight.get_at((0,0)))
         

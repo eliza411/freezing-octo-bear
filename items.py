@@ -185,6 +185,8 @@ class Fork(InventoryItem):
     shoot = 0   #Member variable, because self.shoot won't let me refer to it with keydown commands over in eat_a_snake.py
     def __init__(self):
         InventoryItem.__init__(self, 'assets/images/fork.png')
+        self.rect.x = DOMAIN['x']/2 + 200
+        self.rect.y = DOMAIN['y']/2 + 200
         self.duration = 3
         self.allowed_target_types = (hunterclass.Hunter,)
     def use(self, target):
@@ -197,7 +199,7 @@ class Fork(InventoryItem):
         self.endtime = time.time() + self.duration
         self.sound.set_volume(1.0)
         self.sound.play(maxtime=self.duration*1000) #Play time is in milliseconds
-        hunterclass.Hunter.wieldingMasterFork = 1   #Once the fork is used, tells hunter to wield master fork
+        hunterclass.Hunter.wieldingMasterFork += 1   #Once the fork is used, tells hunter to wield master fork
     def update(self):
         if self.active:
             if Fork.shoot:
