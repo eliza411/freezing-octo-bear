@@ -206,6 +206,9 @@ class Fork(InventoryItem):
                 bubble = Bubble(self.target.rect.topleft, self.target.direction, self.target.movement_speed, self.target) 
                 projectiles.add(bubble)
                 Fork.shoot = 0 #So that bubbles wont be shot infinitely
+                if hunterclass.Hunter.wieldingMasterFork == 2:
+                    bubble = Bubble(self.target.rect.topleft, -(self.target.direction), self.target.movement_speed, self.target) 
+                    projectiles.add(bubble)
 
 
 class Bubble(pygame.sprite.Sprite):
